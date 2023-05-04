@@ -43,14 +43,31 @@ const TETROMINOS = {
   ]
 }
 
+const TETROMINO_COLOR = {
+  'I': 'cyan',
+  'O': 'yellow',
+  'T': 'purple',
+  'S': 'green',
+  'Z': 'red',
+  'J': 'blue',
+  'L': 'orange'
+}
+
 const CELL_SIZE = "15"; 
+
+
+
+// Generate random teteromino.
+function generateTetromino() {
+
+}
+
+
 
 // Initialize canvas.
 const canvas = document.getElementById("game-screen");
 const ctx = canvas.getContext('2d');
 ctx.fillStyle = 'lightgray';
-
-console.log(ctx);
 
 // Populate empty game array.
 let gameArray = [];
@@ -63,22 +80,36 @@ for (let row = -10; row < 20; row++) {
   }
 }
 
-
+let frameCount = 0;
+let test_i = 0;
+let test_j = 0;
+let gameActive = null;
 
 // Game driver loop.
 function gameLoop() {
+  requestAnimationFrame(gameLoop);
 
-  // ctx.fillRect(0, 0, CELL_SIZE - 1, CELL_SIZE - 1);
-  // ctx.strokeRect(50, 50, 150, 150);
-
+  gameArray[test_i][test_j] = 1;
+  frameCount++;
 
   // Draw the current game state.
   for (let row = 0; row < 20; row++) {
     for (let column = 0; column < 10; column++) {
+      if (gameArray[row][column]) {
+        ctx.fillStyle = TETROMINO_COLOR['J'];
+      } else {
+        ctx.fillStyle = "lightgrey";
+      }
       ctx.fillRect(column * CELL_SIZE, row * CELL_SIZE, CELL_SIZE - 1, CELL_SIZE - 1);
     }
   }
-  console.log("all done!");
+
+  if (frameCount > 35) {
+    frameCount = 0;
+    gameArray[test_i][test_j] = 0;
+    test_i++;
+  }
 }
 
-gameLoop();
+gameActive = requestAnimationFrame(gameLoop);
+
