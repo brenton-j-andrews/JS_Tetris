@@ -55,13 +55,12 @@ const TETROMINO_COLOR = {
 
 const CELL_SIZE = "15"; 
 
-// Generate random tetromino.
+// Fetch a tetromino.
 function fetchTetromino() {
   const name = 'I';
   const matrix = TETROMINOS[name];
-
-  const col = 5;
-  const row = -5;
+  let col = matrix.name === 'I' ? 3 : 4;
+  let row = matrix.name === 'I' ? -1 :-2;
 
   return {
     name: name,
@@ -134,7 +133,6 @@ function gameLoop() {
 
     for (let row = 0; row < activeTetromino.matrix.length; row++) {
       for (let col = 0; col < activeTetromino.matrix[row].length; col++) {
-
         if (activeTetromino.matrix[row][col]) {
           ctx.fillStyle = TETROMINO_COLOR[activeTetromino.name];
           ctx.fillRect((activeTetromino.col + col) * CELL_SIZE, (activeTetromino.row + row) * CELL_SIZE, CELL_SIZE - 1, CELL_SIZE - 1);
@@ -145,12 +143,29 @@ function gameLoop() {
   }
 }
 
+// Key event listeners. Button events to be added later.
 document.addEventListener("keydown", (e) => {
-  let code = e.code;
-  if (code === "ArrowUp") {
+  
+  if (e.code === "ArrowUp") {
     activeTetromino.matrix = rotateMatrix90DegClockWise(activeTetromino.matrix);
   }
+
+  else if (e.code === "ArrowRight") {
+    if (activeTetromino.col + activeTetromino.matrix.length < 10) {
+      activeTetromino.col++;
+    }
+  }
+
+  else if (e.code === "ArrowLeft") {
+    if (activeTetromino.col >= 1) {
+      activeTetromino.col--;
+    }
+  }
+
+  else if (e.code === "SpaceBar") {
+    console.log("Hard drop!!!");
+  }
+ 
 }, false);
 
 gameActive = requestAnimationFrame(gameLoop);
-
