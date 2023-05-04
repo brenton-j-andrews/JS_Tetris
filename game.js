@@ -55,14 +55,32 @@ const TETROMINO_COLOR = {
 
 const CELL_SIZE = "15"; 
 
+// Generate random tetromino.
+function fetchTetromino() {
+  const name = 'I';
+  const matrix = TETROMINOS[name];
 
+  const col = 5;
+  const row = -5;
 
-// Generate random teteromino.
-function generateTetromino() {
-
+  return {
+    name: name,
+    matrix: matrix,
+    col: col,
+    row: row
+  }
 }
 
+// Rotate tetromino matrix 90 degrees.
+function rotateMatrix90DegClockWise(matrix) {
+  const N = matrix.length - 1;
 
+  const result = matrix.map((row, i) =>
+    row.map((val, j) => matrix[N - j][i])
+  );
+
+  return result;
+}
 
 // Initialize canvas.
 const canvas = document.getElementById("game-screen");
@@ -81,22 +99,20 @@ for (let row = -10; row < 20; row++) {
 }
 
 let frameCount = 0;
-let test_i = 0;
-let test_j = 0;
+let activeTetromino = null;
 let gameActive = null;
+let gameOver = false;
 
 // Game driver loop.
 function gameLoop() {
   requestAnimationFrame(gameLoop);
-
-  gameArray[test_i][test_j] = 1;
   frameCount++;
 
   // Draw the current game state.
   for (let row = 0; row < 20; row++) {
     for (let column = 0; column < 10; column++) {
       if (gameArray[row][column]) {
-        ctx.fillStyle = TETROMINO_COLOR['J'];
+        ctx.fillStyle = TETROMINO_COLOR[activeTetromino.name];
       } else {
         ctx.fillStyle = "lightgrey";
       }
@@ -104,12 +120,37 @@ function gameLoop() {
     }
   }
 
-  if (frameCount > 35) {
-    frameCount = 0;
-    gameArray[test_i][test_j] = 0;
-    test_i++;
+  // If no tetromino, fetch new one.
+  if (!activeTetromino) {
+    activeTetromino = fetchTetromino();
+  }
+
+  // Update gameArray with tetromino position.
+  if (activeTetromino) {
+    if (frameCount > 35) {
+      frameCount = 0;
+      activeTetromino.row++;
+    }
+
+    for (let row = 0; row < activeTetromino.matrix.length; row++) {
+      for (let col = 0; col < activeTetromino.matrix[row].length; col++) {
+
+        if (activeTetromino.matrix[row][col]) {
+          ctx.fillStyle = TETROMINO_COLOR[activeTetromino.name];
+          ctx.fillRect((activeTetromino.col + col) * CELL_SIZE, (activeTetromino.row + row) * CELL_SIZE, CELL_SIZE - 1, CELL_SIZE - 1);
+        }
+      }
+    }
+    
   }
 }
+
+document.addEventListener("keydown", (e) => {
+  let code = e.code;
+  if (code === "ArrowUp") {
+    activeTetromino.matrix = rotateMatrix90DegClockWise(activeTetromino.matrix);
+  }
+}, false);
 
 gameActive = requestAnimationFrame(gameLoop);
 
