@@ -132,7 +132,7 @@ const COUNTERCLOCKWISE_90_DEG = {
   ]
 }
 
-function rotateMatrix90DegClockWise (matrix) {
+function rotateMatrix90Deg (matrix) {
   const N = matrix.length - 1;
 
   const result = matrix.map((row, i) =>
@@ -156,20 +156,24 @@ function rotateMatrix90DegCounterClockWise (matrix) {
 function rotateMatrix360DegClockWise (matrix) {
   let result = matrix;
   for (let i = 0; i < 4; i++) {
-    result = rotateMatrix90DegClockWise(result);
+    result = rotateMatrix90Deg(result);
   }
   return result;
 }
 
+function shiftMatrix(matrix, col, row) {
+
+}
+
 test('Rotate all tetrominos 90 degrees clockwise', () => {
-  expect(rotateMatrix90DegClockWise(TETROMINOS.J)).toStrictEqual(CLOCKWISE_90_DEG.J);
-  expect(rotateMatrix90DegClockWise(TETROMINOS.L)).toStrictEqual(CLOCKWISE_90_DEG.L);
-  expect(rotateMatrix90DegClockWise(TETROMINOS.I)).toStrictEqual(CLOCKWISE_90_DEG.I);
-  expect(rotateMatrix90DegClockWise(TETROMINOS.L)).toStrictEqual(CLOCKWISE_90_DEG.L);
-  expect(rotateMatrix90DegClockWise(TETROMINOS.O)).toStrictEqual(CLOCKWISE_90_DEG.O);
-  expect(rotateMatrix90DegClockWise(TETROMINOS.S)).toStrictEqual(CLOCKWISE_90_DEG.S);
-  expect(rotateMatrix90DegClockWise(TETROMINOS.T)).toStrictEqual(CLOCKWISE_90_DEG.T);
-  expect(rotateMatrix90DegClockWise(TETROMINOS.Z)).toStrictEqual(CLOCKWISE_90_DEG.Z);
+  expect(rotateMatrix90Deg(TETROMINOS.J)).toStrictEqual(CLOCKWISE_90_DEG.J);
+  expect(rotateMatrix90Deg(TETROMINOS.L)).toStrictEqual(CLOCKWISE_90_DEG.L);
+  expect(rotateMatrix90Deg(TETROMINOS.I)).toStrictEqual(CLOCKWISE_90_DEG.I);
+  expect(rotateMatrix90Deg(TETROMINOS.L)).toStrictEqual(CLOCKWISE_90_DEG.L);
+  expect(rotateMatrix90Deg(TETROMINOS.O)).toStrictEqual(CLOCKWISE_90_DEG.O);
+  expect(rotateMatrix90Deg(TETROMINOS.S)).toStrictEqual(CLOCKWISE_90_DEG.S);
+  expect(rotateMatrix90Deg(TETROMINOS.T)).toStrictEqual(CLOCKWISE_90_DEG.T);
+  expect(rotateMatrix90Deg(TETROMINOS.Z)).toStrictEqual(CLOCKWISE_90_DEG.Z);
 });
 
 test('Rotate all tetrominos 360 degrees clockwise.', () => {
@@ -183,3 +187,6 @@ test('Rotate all tetrominos 360 degrees clockwise.', () => {
   expect(rotateMatrix360DegClockWise(TETROMINOS.Z)).toStrictEqual(TETROMINOS.Z);
 });
 
+test('Shift matrix to left by one', () => {
+
+})

@@ -85,21 +85,21 @@ function generateTetrominoSequence() {
 
 // Fetch a tetromino.
 function fetchTetromino() {
-  const name = "I";
+  const name = generateTetrominoSequence();
   const matrix = TETROMINOS[name];
   let col = matrix.name === 'I' ? 3 : 4;
-  let row = matrix.name === 'I' ? -1 :-2;
+  let row = matrix.name === 'I' ? -1 : -2;
 
   return {
     name: name,
     matrix: matrix,
     col: col,
-    row: 5
+    row: row
   }
 }
 
 // Rotate tetromino matrix 90 degrees.
-function rotateMatrix90DegClockWise(matrix) {
+function rotateMatrix90Deg(matrix) {
   const N = matrix.length - 1;
 
   const result = matrix.map((row, i) =>
@@ -109,8 +109,8 @@ function rotateMatrix90DegClockWise(matrix) {
   return result;
 }
 
-// TODO: Check move validity (in bounds and piece collisions)
-function checkValidMove(matrix, incrementedColumn) {
+// Check move validity (in bounds and piece collisions). TODO: handle piece rotation validity, seperate function?
+function checkValidMove(matrix, incrementedColumn, incrementedRow) {
   for (let row = 0; row < matrix.length; row++) {
     for (let col = 0; col < matrix[row].length; col++) {
 
@@ -120,12 +120,15 @@ function checkValidMove(matrix, incrementedColumn) {
         (col + incrementedColumn >= 10) ||
 
         // Left wall collision
-        (col + incrementedColumn < 0)
+        (col + incrementedColumn < 0) ||
         
-        // TODO: Bottom wall collision.
-        // TODO: Piece collision.
-      )
-      ) {
+        // Bottom wall collision.
+        (incrementedRow + row >= 20) ||
+
+        // Piece collision.
+        (gameArray[incrementedRow + row][incrementedColumn + col])
+
+      )) {
         return false;
       }
     }
@@ -134,9 +137,17 @@ function checkValidMove(matrix, incrementedColumn) {
   return true;
 }
 
-// TODO: Update gameArray on tetromino placement.
-function placeTetromino() {
-  return 'TODO!';
+// Update gameArray on tetromino placement. TODO: check game over conditions.
+function placeTetromino(activeTetromino) {
+  for (let i = 0; i < activeTetromino.matrix.length; i++) {
+    for (let j = 0; j < activeTetromino.matrix[i].length; j++) {
+
+      // If exists, update gameArray.
+      if (activeTetromino.matrix[i][j]) {
+        gameArray[activeTetromino.row + i][activeTetromino.col + j] = activeTetromino.name;  
+      }
+    }
+  }
 }
 
 // Game driver loop.
@@ -148,7 +159,7 @@ function gameLoop() {
   for (let row = 0; row < 20; row++) {
     for (let column = 0; column < 10; column++) {
       if (gameArray[row][column]) {
-        ctx.fillStyle = TETROMINO_COLOR[activeTetromino.name];
+        ctx.fillStyle = TETROMINO_COLOR[gameArray[row][column]];
       } else {
         ctx.fillStyle = "lightgrey";
       }
@@ -163,10 +174,17 @@ function gameLoop() {
 
   // Update canvas with tetromino position.
   if (activeTetromino) {
-    // if (frameCount > 300) {
-    //   frameCount = 0;
-    //   activeTetromino.row++;
-    // }
+    if (frameCount > 100) {
+      frameCount = 0;
+      activeTetromino.row++;
+
+      // If piece is in final position, place it into the gameArray.
+      if (!checkValidMove(activeTetromino.matrix, activeTetromino.col, activeTetromino.row)) {
+        activeTetromino.row--;
+        placeTetromino(activeTetromino);    
+        activeTetromino = fetchTetromino();
+      }
+    }
 
     for (let row = 0; row < activeTetromino.matrix.length; row++) {
       for (let col = 0; col < activeTetromino.matrix[row].length; col++) {
@@ -184,8 +202,8 @@ function gameLoop() {
 document.addEventListener("keydown", (e) => {
 
   if (e.code === "ArrowUp") {
-    let matrix = rotateMatrix90DegClockWise(activeTetromino.matrix);
-    const valid = checkValidMove(matrix, activeTetromino.col);
+    let matrix = rotateMatrix90Deg(activeTetromino.matrix);
+    const valid = checkValidMove(matrix, activeTetromino.col, activeTetromino.row);
 
     if (valid) {
       activeTetromino.matrix = matrix;
@@ -215,7 +233,7 @@ document.addEventListener("keydown", (e) => {
   else if (e.code === "ArrowRight") {
     let incrementedColumn = activeTetromino.col + 1;
     
-    const valid = checkValidMove(activeTetromino.matrix, incrementedColumn);
+    const valid = checkValidMove(activeTetromino.matrix, incrementedColumn, activeTetromino.row);
     if (valid) {
       activeTetromino.col++;
     }
@@ -223,22 +241,28 @@ document.addEventListener("keydown", (e) => {
 
   else if (e.code === "ArrowLeft") {
     let incrementedColumn = activeTetromino.col - 1;
-    const valid = checkValidMove(activeTetromino.matrix, incrementedColumn);
+    const valid = checkValidMove(activeTetromino.matrix, incrementedColumn, activeTetromino.row);
 
     if (valid) {
       activeTetromino.col--;
     }
   }
 
-  else if (e.code === "SpaceBar") {
-    console.log("Hard drop!!!");
+  else if (e.code === "ArrowDown") {
+    let incrementedRow = activeTetromino.row + 1;
+    const valid = checkValidMove(activeTetromino.matrix, activeTetromino.col, incrementedRow);
+
+    if (!valid) {
+      activeTetromino.row = incrementedRow - 1;
+      placeTetromino();
+      return
+    } 
+
+    else {
+      activeTetromino.row ++;
+    }
   }
  
 }, false);
-
-// // TODO: Add on screen button events.
-// document.addEventListener("click", (e) => {
-//   console.log(`you clicked a button!`);
-// }, false);
 
 gameActive = requestAnimationFrame(gameLoop);
