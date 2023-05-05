@@ -55,9 +55,37 @@ const TETROMINO_COLOR = {
 
 const CELL_SIZE = "15"; 
 
+// Initialize canvas.
+const canvas = document.getElementById("game-screen");
+const ctx = canvas.getContext('2d');
+ctx.fillStyle = 'lightgray';
+
+// Populate empty game array.
+let gameArray = [];
+
+for (let row = -5; row < 20; row++) {
+  gameArray[row] = [];
+
+  for (let element = 0; element < 10; element++) {
+    gameArray[row][element] = 0;
+  }
+}
+
+// Set initial game variables.
+let frameCount = 0;
+let activeTetromino = null;
+let gameActive = null;
+let gameOver = false;
+
+// TODO: Generate a tetromino sequence via 8-bag algorithm.
+function generateTetrominoSequence() {
+  const names = ['I','J', 'L','O','S','T','Z'];
+  return names[Math.floor(Math.random() * names.length)];
+}
+
 // Fetch a tetromino.
 function fetchTetromino() {
-  const name = 'I';
+  const name = generateTetrominoSequence();
   const matrix = TETROMINOS[name];
   let col = matrix.name === 'I' ? 3 : 4;
   let row = matrix.name === 'I' ? -1 :-2;
@@ -66,7 +94,7 @@ function fetchTetromino() {
     name: name,
     matrix: matrix,
     col: col,
-    row: row
+    row: 5
   }
 }
 
@@ -81,26 +109,42 @@ function rotateMatrix90DegClockWise(matrix) {
   return result;
 }
 
-// Initialize canvas.
-const canvas = document.getElementById("game-screen");
-const ctx = canvas.getContext('2d');
-ctx.fillStyle = 'lightgray';
+// TODO: Check move validity (in bounds and piece collisions)
+function checkValidMove(matrix, incrementedColumn) {
+  for (let row = 0; row < matrix.length; row++) {
+    for (let col = 0; col < matrix[row].length; col++) {
 
-// Populate empty game array.
-let gameArray = [];
+      if (matrix[row][col] && (
 
-for (let row = -10; row < 20; row++) {
-  gameArray[row] = [];
+        // Right wall collision
+        (col + incrementedColumn >= 10) ||
 
-  for (let element = 0; element < 10; element++) {
-    gameArray[row][element] = 0;
+        // Left wall collision
+        (col + incrementedColumn < 0)
+        
+        // TODO: Bottom wall collision.
+        // TODO: Piece collision.
+      )
+      ) {
+        console.log("col value: ", col);
+        console.log("inc col value: ", incrementedColumn);
+        return false;
+      }
+    }
   }
+
+  return true;
 }
 
-let frameCount = 0;
-let activeTetromino = null;
-let gameActive = null;
-let gameOver = false;
+// TODO: Shift matrix that is being rotated while out of bounds.
+function shiftMatrix(matrix, increment) {
+
+}
+
+// TODO: Update gameArray on tetromino placement.
+function placeTetromino() {
+  return 'TODO!';
+}
 
 // Game driver loop.
 function gameLoop() {
@@ -124,9 +168,9 @@ function gameLoop() {
     activeTetromino = fetchTetromino();
   }
 
-  // Update gameArray with tetromino position.
+  // Update canvas with tetromino position.
   if (activeTetromino) {
-    if (frameCount > 35) {
+    if (frameCount > 300) {
       frameCount = 0;
       activeTetromino.row++;
     }
@@ -145,19 +189,41 @@ function gameLoop() {
 
 // Key event listeners. Button events to be added later.
 document.addEventListener("keydown", (e) => {
-  
+
   if (e.code === "ArrowUp") {
-    activeTetromino.matrix = rotateMatrix90DegClockWise(activeTetromino.matrix);
+    let matrix = rotateMatrix90DegClockWise(activeTetromino.matrix);
+    const valid = checkValidMove(matrix, activeTetromino.col);
+    console.log(activeTetromino.col);
+
+    if (valid) {
+      activeTetromino.matrix = matrix;
+    } 
+
+    // Edge cases: rotating tetromino while some of the matrix is out of bounds.
+    else if (activeTetromino.col === 8 ) {
+      activeTetromino.col--;
+      activeTetromino.matrix = matrix;
+    }
+    else if (activeTetromino.col === -1) {
+      activeTetromino.col++;
+      activeTetromino.matrix = matrix;
+    }
   }
 
   else if (e.code === "ArrowRight") {
-    if (activeTetromino.col + activeTetromino.matrix.length < 10) {
+    let incrementedColumn = activeTetromino.col + 1;
+    
+    const valid = checkValidMove(activeTetromino.matrix, incrementedColumn);
+    if (valid) {
       activeTetromino.col++;
     }
   }
 
   else if (e.code === "ArrowLeft") {
-    if (activeTetromino.col >= 1) {
+    let incrementedColumn = activeTetromino.col - 1;
+    const valid = checkValidMove(activeTetromino.matrix, incrementedColumn);
+
+    if (valid) {
       activeTetromino.col--;
     }
   }
@@ -167,5 +233,10 @@ document.addEventListener("keydown", (e) => {
   }
  
 }, false);
+
+// // TODO: Add on screen button events.
+// document.addEventListener("click", (e) => {
+//   console.log(`you clicked a button!`);
+// }, false);
 
 gameActive = requestAnimationFrame(gameLoop);
