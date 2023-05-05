@@ -1,3 +1,11 @@
+:root {
+  --screen-offwhite: #ffffe4;
+  --screen-primary-400: rgb(109, 109, 109);
+  --screen-primary-800: rgb(44, 44, 44);
+  
+  --small-spacing: 2px;
+}
+
 body {
   display: flex;
   height: 100vh;
@@ -46,7 +54,7 @@ body {
 
 .screen-contents {
   display: flex;
-  width: 75%;
+  width: 80%;
   height: 100%;
 }
 
@@ -56,18 +64,87 @@ body {
 
   width: 65%;
 
-  border: 5px solid rgb(61, 61, 61);
-  background-color: white;
-}
-
-.score-display {
-  width: 35%;
-  border: 5px solid rgb(61, 61, 61);
-
-  background-color: white;
+  background-color: var(--screen-offwhite);
+  border: 5px solid var(--screen-offwhite);
+  background-color: var(--screen-offwhite);
 }
 
 #game-screen {
-  background-color: white;
+  background-color: var(--screen-offwhite);
   border-radius: 5px;
+}
+
+/* Score display styling. */
+.score-display {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100px;
+
+  border-color: var(--screen-offwhite);
+  border-style: solid;
+  border-width: 2px 5px 2px 1px;
+
+  background-color: var(--screen-offwhite);
+}
+
+.current-score-wrapper {
+  position: relative;
+
+  width: 100%;
+  height: 75px;
+}
+
+.score-label-wrapper {
+  position: absolute;
+  text-align: center;
+  border-radius: 5px;
+  background-color: var(--screen-offwhite);
+  width: 80%;
+  top: 7px;
+  right: 10px;
+  padding: 5px 0px;
+}
+
+.score-label {
+  font-weight: bold;
+  margin: 3px;
+  border: var(--small-spacing) solid rgb(146, 146, 86);
+  border-radius: 5px;
+  width: 90%;
+  padding: 0px 6px;
+}
+
+.score-theme-top {
+  width: 100%;
+  height: 33%;
+  background-color: var(--screen-primary-800);
+  margin-bottom: 3px;
+}
+
+.score-theme-middle {
+  width: 100%;
+  height: 18%;
+  background-color: rgb(146, 146, 86);
+}
+
+.score-theme-bottom {
+  width: 100%;
+  height: auto;
+  background-color: var(--screen-offwhite);
+  border-top: 3px solid rgb(146, 146, 86);
+  border-bottom: 3px solid rgb(146, 146, 86);
+  margin: 2px 0px;
+  text-align: right;
+}
+
+.score-text {
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.stuff {
+  height: 225px;
+  width: 100%;
+  background-color: var(--screen-primary-800);
 }
