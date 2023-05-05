@@ -61,13 +61,9 @@ body {
 .game-display {
   display: flex;
   justify-content: center;
-
   width: 65%;
-
   background-color: var(--screen-offwhite);
-
-  border: 5px solid var(--screen-offwhite);
-  
+  border: 5px solid var(--screen-primary-400);
   background-color: var(--screen-offwhite);
 }
 

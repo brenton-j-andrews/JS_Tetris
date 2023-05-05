@@ -85,7 +85,7 @@ function generateTetrominoSequence() {
 
 // Fetch a tetromino.
 function fetchTetromino() {
-  const name = generateTetrominoSequence();
+  const name = 'O';
   const matrix = TETROMINOS[name];
   let col = matrix.name === 'I' ? 3 : 4;
   let row = matrix.name === 'I' ? -1 : -2;
@@ -109,7 +109,7 @@ function rotateMatrix90Deg(matrix) {
   return result;
 }
 
-// Check move validity (in bounds and piece collisions). TODO: handle piece rotation validity, seperate function?
+// Check move validity (in bounds and piece collisions). TODO: handle piece rotation validity? Maybe in seperate function.
 function checkValidMove(matrix, incrementedColumn, incrementedRow) {
   for (let row = 0; row < matrix.length; row++) {
     for (let col = 0; col < matrix[row].length; col++) {
@@ -137,7 +137,7 @@ function checkValidMove(matrix, incrementedColumn, incrementedRow) {
   return true;
 }
 
-// Update gameArray on tetromino placement. TODO: check game over conditions.
+// Update gameArray on tetromino placement. TODO: check game over conditions and clear lines. 
 function placeTetromino(activeTetromino) {
   for (let i = 0; i < activeTetromino.matrix.length; i++) {
     for (let j = 0; j < activeTetromino.matrix[i].length; j++) {
@@ -145,6 +145,21 @@ function placeTetromino(activeTetromino) {
       // If exists, update gameArray.
       if (activeTetromino.matrix[i][j]) {
         gameArray[activeTetromino.row + i][activeTetromino.col + j] = activeTetromino.name;  
+
+        // TODO: Check for game ending condition.
+
+        // Check if row is full, remove and drop down rows above if so.
+        for (row = gameArray.length - 1; row >= 0; row--) {
+          if (gameArray[row].every(item => !!item)) {
+            
+            // Clear row.
+            for (let r = row; r >= 0; r--) {
+              for (let c = 0; c < gameArray[r].length; c++) {
+                gameArray[r][c] = gameArray[r - 1][c];
+              }
+            }
+          }
+        }
       }
     }
   }
@@ -174,7 +189,7 @@ function gameLoop() {
 
   // Update canvas with tetromino position.
   if (activeTetromino) {
-    if (frameCount > 100) {
+    if (frameCount > 500) {
       frameCount = 0;
       activeTetromino.row++;
 

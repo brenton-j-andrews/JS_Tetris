@@ -161,10 +161,6 @@ function rotateMatrix360DegClockWise (matrix) {
   return result;
 }
 
-function shiftMatrix(matrix, col, row) {
-
-}
-
 test('Rotate all tetrominos 90 degrees clockwise', () => {
   expect(rotateMatrix90Deg(TETROMINOS.J)).toStrictEqual(CLOCKWISE_90_DEG.J);
   expect(rotateMatrix90Deg(TETROMINOS.L)).toStrictEqual(CLOCKWISE_90_DEG.L);
