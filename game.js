@@ -77,7 +77,7 @@ let activeTetromino = null;
 let gameActive = null;
 let gameOver = false;
 
-// TODO: Generate a tetromino sequence via 8-bag algorithm.
+// TODO: Generate a tetromino sequence via 8-bag algorithm. Lazy randomizer for now.
 function generateTetrominoSequence() {
   const names = ['I','J', 'L','O','S','T','Z'];
   return names[Math.floor(Math.random() * names.length)];
@@ -85,7 +85,7 @@ function generateTetrominoSequence() {
 
 // Fetch a tetromino.
 function fetchTetromino() {
-  const name = generateTetrominoSequence();
+  const name = "I";
   const matrix = TETROMINOS[name];
   let col = matrix.name === 'I' ? 3 : 4;
   let row = matrix.name === 'I' ? -1 :-2;
@@ -126,19 +126,12 @@ function checkValidMove(matrix, incrementedColumn) {
         // TODO: Piece collision.
       )
       ) {
-        console.log("col value: ", col);
-        console.log("inc col value: ", incrementedColumn);
         return false;
       }
     }
   }
 
   return true;
-}
-
-// TODO: Shift matrix that is being rotated while out of bounds.
-function shiftMatrix(matrix, increment) {
-
 }
 
 // TODO: Update gameArray on tetromino placement.
@@ -170,10 +163,10 @@ function gameLoop() {
 
   // Update canvas with tetromino position.
   if (activeTetromino) {
-    if (frameCount > 300) {
-      frameCount = 0;
-      activeTetromino.row++;
-    }
+    // if (frameCount > 300) {
+    //   frameCount = 0;
+    //   activeTetromino.row++;
+    // }
 
     for (let row = 0; row < activeTetromino.matrix.length; row++) {
       for (let col = 0; col < activeTetromino.matrix[row].length; col++) {
@@ -193,19 +186,28 @@ document.addEventListener("keydown", (e) => {
   if (e.code === "ArrowUp") {
     let matrix = rotateMatrix90DegClockWise(activeTetromino.matrix);
     const valid = checkValidMove(matrix, activeTetromino.col);
-    console.log(activeTetromino.col);
 
     if (valid) {
       activeTetromino.matrix = matrix;
     } 
 
-    // Edge cases: rotating tetromino while some of the matrix is out of bounds.
-    else if (activeTetromino.col === 8 ) {
-      activeTetromino.col--;
+    // Edge cases: rotating other tetrominos while some of the matrix is out of bounds.
+    else if (activeTetromino.col === 8) {
+      activeTetromino.name === "I" ? activeTetromino.col -= 2 : activeTetromino.col--;
       activeTetromino.matrix = matrix;
     }
     else if (activeTetromino.col === -1) {
       activeTetromino.col++;
+      activeTetromino.matrix = matrix;
+    }
+
+    // 'I' shape specific edge cases.
+    else if (activeTetromino.col === 7) {
+      activeTetromino.col--;
+      activeTetromino.matrix = matrix;
+    }
+    else if (activeTetromino.col === -2) {
+      activeTetromino.col += 2;
       activeTetromino.matrix = matrix;
     }
   }
