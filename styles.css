@@ -14,6 +14,7 @@ body {
   background-color: red;
 }
 
+/*--------------------------------------------Game Screen styling */
 .gameboy-wrapper {
   display: flex;
   flex-direction: column;
@@ -61,19 +62,21 @@ body {
 .game-display {
   display: flex;
   justify-content: center;
+  border-right: 15px solid var(--screen-primary-400);
+  border-left: 15px solid var(--screen-primary-400);
+
   width: 65%;
   background-color: var(--screen-offwhite);
-  border: 5px solid var(--screen-primary-400);
+
   background-color: var(--screen-offwhite);
 }
 
 #game-screen {
   background-color: var(--screen-offwhite);
-  border-radius: 5px;
+  /* border-radius: 5px; */
 }
 
-/* Score display styling. */
-
+/*---------------------------------------- Score display styling. */
 .score-display-wrapper {
   display: flex;
   flex-direction: column;

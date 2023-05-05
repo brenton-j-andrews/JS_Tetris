@@ -54,12 +54,20 @@ const TETROMINO_COLOR = {
 }
 
 // Source: https://tetris.fandom.com/wiki/Tetris_(NES,_Nintendo)
-const LEVELS = {
-  0:53,
-  1:43,
-  2:38, 
-  3:33,
-  4:20
+const LEVEL_SPEED = {
+  1:15,
+  2:43,
+  3:38, 
+  4:33,
+  5:20
+}
+
+// Source: https://tetris.wiki/Scoring
+const SCORE_TABLE = {
+  1: 100,
+  2: 300,
+  3: 500,
+  4: 800
 }
 
 const CELL_SIZE = "15"; 
@@ -75,7 +83,11 @@ for (let row = -5; row < 20; row++) {
   gameArray[row] = [];
 
   for (let element = 0; element < 10; element++) {
-    gameArray[row][element] = 0;
+    // if (row >  && element < 9) {
+    //   gameArray[row][element] = "I"
+    // } else {
+      gameArray[row][element] = 0;
+    // }
   }
 }
 
@@ -85,11 +97,15 @@ let activeTetromino = null;
 let gameActive = null;
 let gameOver = false;
 
-let currentLevel = 0;
-let lineCount = 0;
+let currentScore = 0;
+let currentLevel = 1;
+let lineCount = 9;
 let rowClearCount = 0;
 
 // Fetch DOM display elements.
+const scoreDisplay = document.getElementById('score-display');
+scoreDisplay.innerHTML = currentScore;
+
 const lineDisplay = document.getElementById('line-count');
 lineDisplay.innerHTML = lineCount;
 
@@ -105,7 +121,7 @@ function generateTetrominoSequence() {
 // Fetch a tetromino.
 function fetchTetromino() {
   const name = generateTetrominoSequence();
-  // const name = "O";
+  // const name = "I";
   const matrix = TETROMINOS[name];
   let col = matrix.name === 'I' ? 3 : 4;
   let row = matrix.name === 'I' ? -1 : -2;
@@ -211,23 +227,30 @@ function gameLoop() {
 
   // Update canvas with tetromino position.
   if (activeTetromino) {
-    if (frameCount > LEVELS[currentLevel]) {
+    if (frameCount > LEVEL_SPEED[currentLevel]) {
       frameCount = 0;
       activeTetromino.row++;
 
-      // If piece is in final position, place it into the gameArray, update lineCount and increment level if needed.
+      // If piece is in final position, update gameArray, score and lineCount. Increment level if needed.
       if (!checkValidMove(activeTetromino.matrix, activeTetromino.col, activeTetromino.row)) {
         activeTetromino.row--;
         placeTetromino(activeTetromino);    
         lineCount += rowClearCount;
-        rowClearCount = 0;
         lineDisplay.innerText = lineCount;
 
+        // Update the score.
+        if (rowClearCount) {
+          currentScore += (SCORE_TABLE[rowClearCount] * currentLevel);
+          scoreDisplay.innerHTML = currentScore;
+        }
+
         // Increment level, refactor later for different play modes.
-        if (lineCount / 10 === 1) {
+        if (lineCount >= (currentLevel) * 10) {
           currentLevel++;
           levelDisplay.innerHTML = currentLevel;
         }
+
+        rowClearCount = 0;
         activeTetromino = fetchTetromino();
       }
     }
@@ -243,6 +266,9 @@ function gameLoop() {
     
   }
 }
+
+// TODO: Add multi key press functionality... Store key presses for simultaneous keydown events.
+let keysPressed = {};
 
 // Key event listeners. Button events to be added later.
 document.addEventListener("keydown", (e) => {
@@ -276,7 +302,7 @@ document.addEventListener("keydown", (e) => {
     }
   }
 
-  else if (e.code === "ArrowRight") {
+  if (e.code === "ArrowRight") {
     let incrementedColumn = activeTetromino.col + 1;
     
     const valid = checkValidMove(activeTetromino.matrix, incrementedColumn, activeTetromino.row);
@@ -285,7 +311,7 @@ document.addEventListener("keydown", (e) => {
     }
   }
 
-  else if (e.code === "ArrowLeft") {
+  if (e.code === "ArrowLeft") {
     let incrementedColumn = activeTetromino.col - 1;
     const valid = checkValidMove(activeTetromino.matrix, incrementedColumn, activeTetromino.row);
 
@@ -294,13 +320,12 @@ document.addEventListener("keydown", (e) => {
     }
   }
 
-  else if (e.code === "ArrowDown") {
+  if (e.code === "ArrowDown") {
     let incrementedRow = activeTetromino.row + 1;
     const valid = checkValidMove(activeTetromino.matrix, activeTetromino.col, incrementedRow);
-
     if (!valid) {
       activeTetromino.row = incrementedRow - 1;
-      placeTetromino();
+      placeTetromino(activeTetromino);
       return
     } 
 
