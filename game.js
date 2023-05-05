@@ -45,7 +45,7 @@ const TETROMINOS = {
 
 const TETROMINO_COLOR = {
   'I': 'cyan',
-  'O': 'yellow',
+  'O': 'magenta',
   'T': 'purple',
   'S': 'green',
   'Z': 'red',
@@ -53,12 +53,20 @@ const TETROMINO_COLOR = {
   'L': 'orange'
 }
 
+// Source: https://tetris.fandom.com/wiki/Tetris_(NES,_Nintendo)
+const LEVELS = {
+  0:53,
+  1:43,
+  2:38, 
+  3:33,
+  4:20
+}
+
 const CELL_SIZE = "15"; 
 
 // Initialize canvas.
 const canvas = document.getElementById("game-screen");
 const ctx = canvas.getContext('2d');
-// ctx.fillStyle = 'lightgray';
 
 // Populate empty game array.
 let gameArray = [];
@@ -77,6 +85,17 @@ let activeTetromino = null;
 let gameActive = null;
 let gameOver = false;
 
+let currentLevel = 0;
+let lineCount = 0;
+let rowClearCount = 0;
+
+// Fetch DOM display elements.
+const lineDisplay = document.getElementById('line-count');
+lineDisplay.innerHTML = lineCount;
+
+const levelDisplay = document.getElementById('level-count');
+levelDisplay.innerHTML = currentLevel;
+
 // TODO: Generate a tetromino sequence via 8-bag algorithm. Lazy randomizer for now.
 function generateTetrominoSequence() {
   const names = ['I','J', 'L','O','S','T','Z'];
@@ -85,7 +104,8 @@ function generateTetrominoSequence() {
 
 // Fetch a tetromino.
 function fetchTetromino() {
-  const name = 'O';
+  const name = generateTetrominoSequence();
+  // const name = "O";
   const matrix = TETROMINOS[name];
   let col = matrix.name === 'I' ? 3 : 4;
   let row = matrix.name === 'I' ? -1 : -2;
@@ -98,7 +118,7 @@ function fetchTetromino() {
   }
 }
 
-// Rotate tetromino matrix 90 degrees.
+// Rotate tetromino matrix 90 degrees clockwise.
 function rotateMatrix90Deg(matrix) {
   const N = matrix.length - 1;
 
@@ -151,7 +171,7 @@ function placeTetromino(activeTetromino) {
         // Check if row is full, remove and drop down rows above if so.
         for (row = gameArray.length - 1; row >= 0; row--) {
           if (gameArray[row].every(item => !!item)) {
-            
+            rowClearCount++;
             // Clear row.
             for (let r = row; r >= 0; r--) {
               for (let c = 0; c < gameArray[r].length; c++) {
@@ -182,21 +202,32 @@ function gameLoop() {
     }
   }
 
+
   // If no tetromino, fetch new one.
   if (!activeTetromino) {
     activeTetromino = fetchTetromino();
   }
 
+
   // Update canvas with tetromino position.
   if (activeTetromino) {
-    if (frameCount > 500) {
+    if (frameCount > LEVELS[currentLevel]) {
       frameCount = 0;
       activeTetromino.row++;
 
-      // If piece is in final position, place it into the gameArray.
+      // If piece is in final position, place it into the gameArray, update lineCount and increment level if needed.
       if (!checkValidMove(activeTetromino.matrix, activeTetromino.col, activeTetromino.row)) {
         activeTetromino.row--;
         placeTetromino(activeTetromino);    
+        lineCount += rowClearCount;
+        rowClearCount = 0;
+        lineDisplay.innerText = lineCount;
+
+        // Increment level, refactor later for different play modes.
+        if (lineCount / 10 === 1) {
+          currentLevel++;
+          levelDisplay.innerHTML = currentLevel;
+        }
         activeTetromino = fetchTetromino();
       }
     }
