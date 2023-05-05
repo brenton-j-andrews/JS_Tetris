@@ -58,7 +58,7 @@ const CELL_SIZE = "15";
 // Initialize canvas.
 const canvas = document.getElementById("game-screen");
 const ctx = canvas.getContext('2d');
-ctx.fillStyle = 'lightgray';
+// ctx.fillStyle = 'lightgray';
 
 // Populate empty game array.
 let gameArray = [];
@@ -161,7 +161,7 @@ function gameLoop() {
       if (gameArray[row][column]) {
         ctx.fillStyle = TETROMINO_COLOR[gameArray[row][column]];
       } else {
-        ctx.fillStyle = "lightgrey";
+        ctx.fillStyle = "#ffffe4";
       }
       ctx.fillRect(column * CELL_SIZE, row * CELL_SIZE, CELL_SIZE - 1, CELL_SIZE - 1);
     }

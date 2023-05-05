@@ -65,7 +65,9 @@ body {
   width: 65%;
 
   background-color: var(--screen-offwhite);
+
   border: 5px solid var(--screen-offwhite);
+  
   background-color: var(--screen-offwhite);
 }
 
@@ -75,7 +77,8 @@ body {
 }
 
 /* Score display styling. */
-.score-display {
+
+.score-display-wrapper {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -97,38 +100,39 @@ body {
 
 .score-label-wrapper {
   position: absolute;
+  top: 7px;
+  right: 5px;
   text-align: center;
   border-radius: 5px;
   background-color: var(--screen-offwhite);
-  width: 80%;
-  top: 7px;
-  right: 10px;
+  width: 90%;
   padding: 5px 0px;
 }
 
-.score-label {
+.score-display-label {
   font-weight: bold;
   margin: 3px;
   border: var(--small-spacing) solid rgb(146, 146, 86);
   border-radius: 5px;
   width: 90%;
   padding: 0px 6px;
+  line-height: .8rem;
 }
 
-.score-theme-top {
+.current-score-theme-top {
   width: 100%;
   height: 33%;
   background-color: var(--screen-primary-800);
   margin-bottom: 3px;
 }
 
-.score-theme-middle {
+.current-score-theme-middle {
   width: 100%;
   height: 18%;
   background-color: rgb(146, 146, 86);
 }
 
-.score-theme-bottom {
+.current-score-theme-bottom {
   width: 100%;
   height: auto;
   background-color: var(--screen-offwhite);
@@ -138,13 +142,69 @@ body {
   text-align: right;
 }
 
-.score-text {
+.score-display-text {
   font-weight: bold;
   margin-right: 10px;
 }
 
-.stuff {
+.lower-display-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   height: 225px;
   width: 100%;
   background-color: var(--screen-primary-800);
+  padding-top: 12px;
+}
+
+.stat-display-wrapper {
+  border-radius: 5px;
+  background-color: var(--screen-offwhite);
+  width: 90%;
+  margin-top: 5px;
+}
+
+.stat-display {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0px 6px;
+  margin: 3px;
+  border: var(--small-spacing) solid rgb(146, 146, 86);
+  border-radius: 5px;
+}
+
+.stat-display-label {
+  letter-spacing: 3px;
+  font-weight: bold;
+  line-height: .8rem;
+  width: fit-content;
+  margin-top: 3px;
+}
+
+.stat-display-text {
+  font-weight: bold;
+  line-height: 1rem;
+  margin: 2px;
+  align-self: flex-end;
+  padding-right: 2px;
+}
+
+.next-piece-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  margin-top: 30px;
+  width: 70px;
+  height: 70px;
+  background-color: var(--screen-offwhite);
+  padding: 2px;
+}
+
+.next-piece-inner-wrapper {
+  width: 100%;
+  height: 90%;
+  border-radius: 5px;
+  border: 3px solid rgb(146, 146, 86);
 }
