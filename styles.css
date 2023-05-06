@@ -73,7 +73,6 @@ body {
 
 #game-screen {
   background-color: var(--screen-offwhite);
-  /* border-radius: 5px; */
 }
 
 /*---------------------------------------- Score display styling. */
@@ -206,4 +205,9 @@ body {
   height: 90%;
   border-radius: 5px;
   border: 3px solid rgb(146, 146, 86);
+}
+
+/* Game Over screen */
+.game-over-wrapper {
+  background-color: red;
 }

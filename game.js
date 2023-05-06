@@ -83,11 +83,7 @@ for (let row = -5; row < 20; row++) {
   gameArray[row] = [];
 
   for (let element = 0; element < 10; element++) {
-    // if (row >  && element < 9) {
-    //   gameArray[row][element] = "I"
-    // } else {
-      gameArray[row][element] = 0;
-    // }
+    gameArray[row][element] = 0;
   }
 }
 
@@ -95,14 +91,14 @@ for (let row = -5; row < 20; row++) {
 let frameCount = 0;
 let activeTetromino = null;
 let gameActive = null;
-let gameOver = false;
+let gameIsOver = false;
 
 let currentScore = 0;
 let currentLevel = 1;
 let lineCount = 9;
 let rowClearCount = 0;
 
-// Fetch DOM display elements.
+// Fetch DOM display elements / HTML documents.
 const scoreDisplay = document.getElementById('score-display');
 scoreDisplay.innerHTML = currentScore;
 
@@ -111,6 +107,10 @@ lineDisplay.innerHTML = lineCount;
 
 const levelDisplay = document.getElementById('level-count');
 levelDisplay.innerHTML = currentLevel;
+
+const gameDisplay = document.getElementById('game-display');
+
+const gameOverHTML = document.get
 
 // TODO: Generate a tetromino sequence via 8-bag algorithm. Lazy randomizer for now.
 function generateTetrominoSequence() {
@@ -173,7 +173,7 @@ function checkValidMove(matrix, incrementedColumn, incrementedRow) {
   return true;
 }
 
-// Update gameArray on tetromino placement. TODO: check game over conditions and clear lines. 
+// Update gameArray on tetromino placement.
 function placeTetromino(activeTetromino) {
   for (let i = 0; i < activeTetromino.matrix.length; i++) {
     for (let j = 0; j < activeTetromino.matrix[i].length; j++) {
@@ -183,6 +183,9 @@ function placeTetromino(activeTetromino) {
         gameArray[activeTetromino.row + i][activeTetromino.col + j] = activeTetromino.name;  
 
         // TODO: Check for game ending condition.
+        if (activeTetromino.row <= 0) {
+          gameIsOver = true;
+        }
 
         // Check if row is full, remove and drop down rows above if so.
         for (row = gameArray.length - 1; row >= 0; row--) {
@@ -201,10 +204,28 @@ function placeTetromino(activeTetromino) {
   }
 }
 
+// On loosing the game, exit the game canvas and display closing screen.
+function gameOver() {
+  gameDisplay.innerHTML = `
+    <div class="game-over-wrapper">
+      <div class="game-over">
+        <span class="game-over-message"> Game Over </span>
+      </div>
+    </div>
+  `
+}
+
 // Game driver loop.
 function gameLoop() {
+
   requestAnimationFrame(gameLoop);
   frameCount++;
+
+  // If end of game.
+  if (gameIsOver) {
+    cancelAnimationFrame(gameLoop);
+    gameOver();
+  }
 
   // Draw the current game state.
   for (let row = 0; row < 20; row++) {
@@ -270,7 +291,7 @@ function gameLoop() {
 // TODO: Add multi key press functionality... Store key presses for simultaneous keydown events.
 let keysPressed = {};
 
-// Key event listeners. Button events to be added later.
+// Key event listeners. TODO: Button events for mobile.
 document.addEventListener("keydown", (e) => {
 
   if (e.code === "ArrowUp") {
@@ -330,10 +351,14 @@ document.addEventListener("keydown", (e) => {
     } 
 
     else {
+      currentScore++;
+      scoreDisplay.innerHTML = currentScore;
       activeTetromino.row ++;
     }
   }
  
 }, false);
 
-gameActive = requestAnimationFrame(gameLoop);
+if (!gameIsOver) {
+  gameActive = requestAnimationFrame(gameLoop);
+}
