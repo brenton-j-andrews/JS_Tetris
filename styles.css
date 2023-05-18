@@ -209,5 +209,70 @@ body {
 
 /* Game Over screen */
 .game-over-wrapper {
-  background-color: red;
+  display: flex;
+  flex-direction: column;
+
+  background-color: var(--screen-offwhite);
+  width: 75%;
+}
+
+.game-over {
+  margin-top: 40px;
+  padding: 1px;
+  border: 3px solid var(--screen-primary-800);
+  border-radius: 5px;
+}
+
+.game-over-inner {
+  display: flex;
+  flex-direction: column;
+  border: 2px solid rgb(146, 146, 86);
+
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.game-over-message {
+  font-weight: bold;
+  line-height: 1.5rem;
+  text-align: center;
+  text-decoration: underline dotted;
+}
+
+.try-again-prompt-wrapper {
+  position: relative;
+  top: 50px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+
+  margin-bottom: 0px;
+}
+
+.try-again-prompt {
+  font-weight: bold;
+  text-decoration: underline dotted;
+  line-height: 1.5rem;
+  letter-spacing: 1px;
+}
+
+.prompt-two {
+  margin-left: 15px;
+}
+
+.prompt-three {
+  margin-left: 30px;
+}
+
+/* Blinking text animation. */
+@keyframes textBlink {
+  0% {
+    opacity: .5;
+  }
+  50% {
+    opacity: 0.7;
+  }
+  100% {
+    opacity: .5;
+  }
 }

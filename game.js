@@ -55,7 +55,7 @@ const TETROMINO_COLOR = {
 
 // Source: https://tetris.fandom.com/wiki/Tetris_(NES,_Nintendo)
 const LEVEL_SPEED = {
-  1:15,
+  1:48,
   2:43,
   3:38, 
   4:33,
@@ -95,7 +95,7 @@ let gameIsOver = false;
 
 let currentScore = 0;
 let currentLevel = 1;
-let lineCount = 9;
+let lineCount = 0;
 let rowClearCount = 0;
 
 // Fetch DOM display elements / HTML documents.
@@ -184,7 +184,7 @@ function placeTetromino(activeTetromino) {
 
         // TODO: Check for game ending condition.
         if (activeTetromino.row <= 0) {
-          gameIsOver = true;
+          gameOver();
         }
 
         // Check if row is full, remove and drop down rows above if so.
@@ -206,26 +206,30 @@ function placeTetromino(activeTetromino) {
 
 // On loosing the game, exit the game canvas and display closing screen.
 function gameOver() {
+  cancelAnimationFrame(gameActive);
   gameDisplay.innerHTML = `
-    <div class="game-over-wrapper">
-      <div class="game-over">
-        <span class="game-over-message"> Game Over </span>
+  <div class="game-over-wrapper">
+    <div class="game-over">
+      <div class="game-over-inner">
+        <span class="game-over-message">Game</span>
+        <span class="game-over-message">Over</span>
       </div>
     </div>
+
+    <div class="try-again-prompt-wrapper">
+      <span class="try-again-prompt one"> PLEASE </span>
+      <span class="try-again-prompt prompt-two"> TRY </span>
+      <span class="try-again-prompt prompt-three">AGAIN♥</span>
+    </div>
+  </div>
   `
 }
 
 // Game driver loop.
 function gameLoop() {
 
-  requestAnimationFrame(gameLoop);
+  gameActive = requestAnimationFrame(gameLoop);
   frameCount++;
-
-  // If end of game.
-  if (gameIsOver) {
-    cancelAnimationFrame(gameLoop);
-    gameOver();
-  }
 
   // Draw the current game state.
   for (let row = 0; row < 20; row++) {
@@ -239,12 +243,10 @@ function gameLoop() {
     }
   }
 
-
   // If no tetromino, fetch new one.
   if (!activeTetromino) {
     activeTetromino = fetchTetromino();
   }
-
 
   // Update canvas with tetromino position.
   if (activeTetromino) {
@@ -284,7 +286,6 @@ function gameLoop() {
         }
       }
     }
-    
   }
 }
 
@@ -360,5 +361,7 @@ document.addEventListener("keydown", (e) => {
 }, false);
 
 if (!gameIsOver) {
+  console.log(`Start!`);
   gameActive = requestAnimationFrame(gameLoop);
+  console.log(gameActive);
 }
