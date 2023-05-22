@@ -78,6 +78,10 @@ const ctx = canvas.getContext('2d');
 
 // ------------------------------------------------ LEVEL SELECTION / HIGH SCORE.
 
+// First day of multipitch climbing in Utah, should've started 2 years ago but at least I'm kinda strong now. 
+
+// Knowing how to do this stuff opens up all sorts of cool adventures. 
+
 // ------------------------------------------------------- GAME FUNCTIONS / CODE.
 
 // Populate empty game array.
@@ -91,7 +95,7 @@ for (let row = -5; row < 20; row++) {
   }
 }
 
-// Set initial game variables.
+// Initialize game variables.
 let frameCount = 0;
 let activeTetromino = null;
 let gameActive = null;
@@ -114,6 +118,10 @@ levelDisplay.innerHTML = currentLevel;
 
 const gameDisplay = document.getElementById('game-display');
 
+const controlButtons = document.querySelectorAll("button.control-input");
+
+console.log(controlButtons);
+
 // TODO: Generate a tetromino sequence via 8-bag algorithm. Lazy randomizer for now.
 function generateTetrominoSequence() {
   const names = ['I','J', 'L','O','S','T','Z'];
@@ -122,8 +130,8 @@ function generateTetrominoSequence() {
 
 // Fetch a tetromino.
 function fetchTetromino() {
+
   const name = generateTetrominoSequence();
-  // const name = "I";
   const matrix = TETROMINOS[name];
   let col = matrix.name === 'I' ? 3 : 4;
   let row = matrix.name === 'I' ? -1 : -2;
@@ -148,7 +156,6 @@ function rotateMatrix90Deg(matrix) {
 }
 
 // Check move validity (in bounds and piece collisions). 
-// TODO: handle piece rotation validity? Maybe in seperate function.
 function checkValidMove(matrix, incrementedColumn, incrementedRow) {
   for (let row = 0; row < matrix.length; row++) {
     for (let col = 0; col < matrix[row].length; col++) {
@@ -302,9 +309,24 @@ let keysPressed = {};
 
 // Key event listeners. TODO: Button events for mobile.
 document.addEventListener("keydown", (e) => {
-  console.log(e.code);
+  handleEvent(e);
+}, false);
 
-  if (e.code === "ArrowUp") {
+// Button event listeners. 
+controlButtons.forEach(function (i) { 
+  i.addEventListener("click", (e) => {
+    handleEvent(e);
+  })
+}, false);
+
+// Event Listener handle function for button clicks and key presses.
+function handleEvent(e) {
+
+  let code = e.target.id || e.code;
+  console.log(e.target);
+  console.log(code);
+
+  if (code === "ArrowUp" || code === "A") {
     let matrix = rotateMatrix90Deg(activeTetromino.matrix);
     const valid = checkValidMove(matrix, activeTetromino.col, activeTetromino.row);
 
@@ -333,7 +355,7 @@ document.addEventListener("keydown", (e) => {
     }
   }
 
-  if (e.code === "ArrowRight") {
+  if (code === "ArrowRight") {
     let incrementedColumn = activeTetromino.col + 1;
     
     const valid = checkValidMove(activeTetromino.matrix, incrementedColumn, activeTetromino.row);
@@ -342,7 +364,7 @@ document.addEventListener("keydown", (e) => {
     }
   }
 
-  if (e.code === "ArrowLeft") {
+  if (code == "ArrowLeft" ) {
     let incrementedColumn = activeTetromino.col - 1;
     const valid = checkValidMove(activeTetromino.matrix, incrementedColumn, activeTetromino.row);
 
@@ -351,7 +373,7 @@ document.addEventListener("keydown", (e) => {
     }
   }
 
-  if (e.code === "ArrowDown") {
+  if (code === "ArrowDown") {
     let incrementedRow = activeTetromino.row + 1;
     const valid = checkValidMove(activeTetromino.matrix, activeTetromino.col, incrementedRow);
     if (!valid) {
@@ -366,8 +388,7 @@ document.addEventListener("keydown", (e) => {
       activeTetromino.row ++;
     }
   }
- 
-}, false);
+}
 
 if (!gameIsOver) {
   gameActive = requestAnimationFrame(gameLoop);
