@@ -2,6 +2,12 @@
   --screen-offwhite: #ffffe4;
   --screen-primary-400: rgb(109, 109, 109);
   --screen-primary-800: rgb(44, 44, 44);
+
+  --gameboy-body-color: #f0b12d;
+  --gameboy-body-ascent: #da9e21;
+  --gameboy-screen-wrapper-color: #2f323a;
+  --gameboy-controls-color: #393745;
+  --gameboy-controls-border: #190400;
   
   --small-spacing: 2px;
 }
@@ -23,10 +29,11 @@ body {
   height: 740px;
   width: 450px;
   border-radius: 25px;
+  border-bottom-right-radius: 100px;
   box-sizing: border-box;
   padding: 25px;
 
-  background-color: yellow;
+  background-color: var(--gameboy-body-color);
 }
 
 .gameboy-screen-wrapper {
@@ -38,7 +45,7 @@ body {
   width: 95%;
   border-radius: 10px;
 
-  background-color: gray;
+  background-color: var(--gameboy-screen-wrapper-color);
 }
 
 .game-screen {
@@ -275,4 +282,165 @@ body {
   100% {
     opacity: .5;
   }
+}
+
+/* Gameboy Controls Styling */
+.gameboy-controls {
+  width: 95%;
+  display: flex;
+  flex-direction: column;
+  margin-top: 15px;
+}
+
+.branding {
+  color: var(--screen-primary-800);
+  padding: 0px;
+  margin: 0px;
+}
+
+.branding-company {
+  font-weight: 500;
+  font-size: 16px;
+  color: var(--screen-primary-800);
+  padding: 0px;
+  margin-right: 0px;
+}
+
+.branding-system {
+  font-style: italic;
+  font-size: 20px;
+  padding: 0px;
+  margin-left: 0px;
+}
+
+.branding-trademark {
+  font-size: 10px;
+  font-weight: bold;
+}
+
+.upper-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 50px;
+}
+
+.arrow-controls-circle {
+  position: relative;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  height: 100px;
+  width: 100px;
+  border-radius: 50%;
+  background-color: var(--gameboy-body-ascent);
+}
+
+.arrow-controls-center {
+  position: absolute;
+  background-color: var(--gameboy-controls-color);
+  height: 25px;
+  width: 25px;
+}
+
+.arrow-control {
+  position: absolute;
+  background-color: var(--gameboy-controls-color);
+  border: none;
+
+  height: 25px;
+  width: 25px;
+
+  box-sizing: border-box;
+}
+
+.arrow-control:hover, .control-btn:hover {
+  background-color: var(--screen-primary-400);
+}
+
+.arrow-left {
+  left: 12.5px;
+
+  border-left: 3px solid var(--gameboy-controls-border);
+  border-top: 3px solid var(--gameboy-controls-border);
+  border-bottom: 3px solid var(--gameboy-controls-border);
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+
+}
+
+.arrow-right {
+  right: 12.5px;
+
+  border-right: 3px solid var(--gameboy-controls-border);
+  border-top: 3px solid var(--gameboy-controls-border);
+  border-bottom: 3px solid var(--gameboy-controls-border);
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+.arrow-top {
+  top: 12.5px;
+
+  border-top: 3px solid var(--gameboy-controls-border);
+  border-left: 3px solid var(--gameboy-controls-border);
+  border-right: 3px solid var(--gameboy-controls-border);
+  border-top-right-radius: 5px;
+  border-top-left-radius: 5px;
+}
+
+.arrow-bottom {
+  bottom: 12.5px;
+
+  border-bottom: 3px solid var(--gameboy-controls-border);
+  border-left: 3px solid var(--gameboy-controls-border);
+  border-right: 3px solid var(--gameboy-controls-border);
+  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+
+.button-controls-wrapper {
+  transform: rotate(-25deg);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  width: 125px;
+  height: 75px;
+
+  margin-right: -5px;
+
+}
+
+.button-controls {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 125px;
+  height: 50px;
+
+
+  background-color: var(--gameboy-body-ascent);
+  border-radius: 25px;
+}
+
+.control-btn {
+  height: 40px;
+  width: 40px;
+  border: 3px solid var(--gameboy-controls-border);
+  border-radius: 50%;
+  background-color: var(--gameboy-controls-color);
+}
+
+.button-labels {
+  font-size: 14px;
+  font-weight: bold;
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+
+  margin-top: 5px;
 }

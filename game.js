@@ -76,6 +76,10 @@ const CELL_SIZE = "15";
 const canvas = document.getElementById("game-screen");
 const ctx = canvas.getContext('2d');
 
+// ------------------------------------------------ LEVEL SELECTION / HIGH SCORE.
+
+// ------------------------------------------------------- GAME FUNCTIONS / CODE.
+
 // Populate empty game array.
 let gameArray = [];
 
@@ -110,8 +114,6 @@ levelDisplay.innerHTML = currentLevel;
 
 const gameDisplay = document.getElementById('game-display');
 
-const gameOverHTML = document.get
-
 // TODO: Generate a tetromino sequence via 8-bag algorithm. Lazy randomizer for now.
 function generateTetrominoSequence() {
   const names = ['I','J', 'L','O','S','T','Z'];
@@ -145,7 +147,8 @@ function rotateMatrix90Deg(matrix) {
   return result;
 }
 
-// Check move validity (in bounds and piece collisions). TODO: handle piece rotation validity? Maybe in seperate function.
+// Check move validity (in bounds and piece collisions). 
+// TODO: handle piece rotation validity? Maybe in seperate function.
 function checkValidMove(matrix, incrementedColumn, incrementedRow) {
   for (let row = 0; row < matrix.length; row++) {
     for (let col = 0; col < matrix[row].length; col++) {
@@ -204,7 +207,7 @@ function placeTetromino(activeTetromino) {
   }
 }
 
-// On loosing the game, exit the game canvas and display closing screen.
+// On loosing the game, exit the game canvas and display game screen.
 function gameOver() {
   cancelAnimationFrame(gameActive);
   gameDisplay.innerHTML = `
@@ -223,11 +226,16 @@ function gameOver() {
     </div>
   </div>
   `
+
+  document.addEventListener("keydown", (e) => {
+    if (e.code === "Enter") {;
+      location.reload()
+    }
+  })
 }
 
 // Game driver loop.
 function gameLoop() {
-
   gameActive = requestAnimationFrame(gameLoop);
   frameCount++;
 
@@ -294,6 +302,7 @@ let keysPressed = {};
 
 // Key event listeners. TODO: Button events for mobile.
 document.addEventListener("keydown", (e) => {
+  console.log(e.code);
 
   if (e.code === "ArrowUp") {
     let matrix = rotateMatrix90Deg(activeTetromino.matrix);
@@ -361,7 +370,6 @@ document.addEventListener("keydown", (e) => {
 }, false);
 
 if (!gameIsOver) {
-  console.log(`Start!`);
   gameActive = requestAnimationFrame(gameLoop);
   console.log(gameActive);
 }
