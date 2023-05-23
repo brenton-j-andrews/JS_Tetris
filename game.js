@@ -55,7 +55,7 @@ const TETROMINO_COLOR = {
 
 // Source: https://tetris.fandom.com/wiki/Tetris_(NES,_Nintendo)
 const LEVEL_SPEED = {
-  1:1000,
+  1:48,
   2:43,
   3:38, 
   4:33,
@@ -107,6 +107,17 @@ screenContents.innerHTML =
           <div class="stat-display">
             <span class="stat-display-label"> Lines </span>
             <span class="stat-display-text" id="line-count"></span>
+          </div>    <div class="stat-display-wrapper">
+          <div class="stat-display">
+            <span class="stat-display-label"> Level </span>
+            <span class="stat-display-text" id="level-count"></span>
+          </div>
+        </div>
+
+        <div class="stat-display-wrapper">
+          <div class="stat-display">
+            <span class="stat-display-label"> Lines </span>
+            <span class="stat-display-text" id="line-count"></span>
           </div>
         </div>
 
@@ -115,9 +126,13 @@ screenContents.innerHTML =
     
           </div>
         </div>
-      </div>
-
-      
+      </div>   
+        <div class="next-piece-wrapper">
+          <div class="next-piece-inner-wrapper">
+    
+          </div>
+        </div>
+      </div>   
     </div>
   `
 
