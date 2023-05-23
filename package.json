@@ -8,8 +8,10 @@
   },
   "author": "Brenton J Andrews",
   "license": "ISC",
-
   "devDependencies": {
     "jest": "^29.5.0"
+  },
+  "dependencies": {
+    "chance": "^1.1.11"
   }
 }

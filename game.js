@@ -55,7 +55,7 @@ const TETROMINO_COLOR = {
 
 // Source: https://tetris.fandom.com/wiki/Tetris_(NES,_Nintendo)
 const LEVEL_SPEED = {
-  1:48,
+  1:1000,
   2:43,
   3:38, 
   4:33,
@@ -72,15 +72,59 @@ const SCORE_TABLE = {
 
 const CELL_SIZE = "15"; 
 
+
+// Add game screen html to screen-contents div.
+const screenContents = document.getElementById("screen-contents");
+screenContents.innerHTML =
+  `
+    <div class="game-display" id="game-display">
+        <canvas id="game-screen" width="150", height="300"></canvas>
+    </div>
+
+    <div class="score-display-wrapper">
+      <div class="current-score-wrapper">
+        <div class="current-score-theme-top"></div>
+        <div class="current-score-theme-middle"></div>
+
+        <div class="current-score-theme-bottom">
+          <span class="score-display-text" id="score-display"></span>
+        </div>
+
+        <div class="label-wrapper score-label-wrapper">
+          <span class="score-display-label"> Score </span>
+        </div>
+      </div>
+
+      <div class="lower-display-wrapper">
+        <div class="stat-display-wrapper">
+          <div class="stat-display">
+            <span class="stat-display-label"> Level </span>
+            <span class="stat-display-text" id="level-count"></span>
+          </div>
+        </div>
+
+        <div class="stat-display-wrapper">
+          <div class="stat-display">
+            <span class="stat-display-label"> Lines </span>
+            <span class="stat-display-text" id="line-count"></span>
+          </div>
+        </div>
+
+        <div class="next-piece-wrapper">
+          <div class="next-piece-inner-wrapper">
+    
+          </div>
+        </div>
+      </div>
+
+      
+    </div>
+  `
+
 // Initialize canvas.
 const canvas = document.getElementById("game-screen");
 const ctx = canvas.getContext('2d');
 
-// ------------------------------------------------ LEVEL SELECTION / HIGH SCORE.
-
-// First day of multipitch climbing in Utah, should've started 2 years ago but at least I'm kinda strong now. 
-
-// Knowing how to do this stuff opens up all sorts of cool adventures. 
 
 // ------------------------------------------------------- GAME FUNCTIONS / CODE.
 
@@ -98,6 +142,7 @@ for (let row = -5; row < 20; row++) {
 // Initialize game variables.
 let frameCount = 0;
 let activeTetromino = null;
+let nextTetromino = null;
 let gameActive = null;
 let gameIsOver = false;
 
@@ -117,13 +162,10 @@ const levelDisplay = document.getElementById('level-count');
 levelDisplay.innerHTML = currentLevel;
 
 const gameDisplay = document.getElementById('game-display');
-
 const controlButtons = document.querySelectorAll("button.control-input");
 
-console.log(controlButtons);
-
-// TODO: Generate a tetromino sequence via 8-bag algorithm. Lazy randomizer for now.
-function generateTetrominoSequence() {
+// Generate a tetromino sequence via 8-bag algorithm (Classic Tetris randomizer).
+function generateTetromino() {
   const names = ['I','J', 'L','O','S','T','Z'];
   return names[Math.floor(Math.random() * names.length)];
 }
@@ -131,7 +173,7 @@ function generateTetrominoSequence() {
 // Fetch a tetromino.
 function fetchTetromino() {
 
-  const name = generateTetrominoSequence();
+  const name = generateTetromino();
   const matrix = TETROMINOS[name];
   let col = matrix.name === 'I' ? 3 : 4;
   let row = matrix.name === 'I' ? -1 : -2;

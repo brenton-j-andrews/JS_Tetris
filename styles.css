@@ -20,7 +20,7 @@ body {
   background-color: red;
 }
 
-/*--------------------------------------------Game Screen styling */
+/*----------------------------------- Game Boy and display styling */
 .gameboy-wrapper {
   display: flex;
   flex-direction: column;
@@ -41,28 +41,30 @@ body {
   justify-content: center;
   align-items: center;
 
-  height: 50%;
+  height: 45%;
   width: 95%;
   border-radius: 10px;
 
+  margin-top: 25px;
+
   background-color: var(--gameboy-screen-wrapper-color);
+  border-bottom-right-radius: 55px;
 }
 
 .game-screen {
   display: flex;
   justify-content: center;
 
-  width: 90%;
-  height: 90%;
-  padding: 5px;
+  width: 240px;
+  height: 240px;
   box-sizing: border-box;
 
-  background-color: black;
+  background-color: var(--screen-offwhite);
 }
 
 .screen-contents {
   display: flex;
-  width: 80%;
+  width: 100%;
   height: 100%;
 }
 
@@ -72,13 +74,12 @@ body {
   border-right: 15px solid var(--screen-primary-400);
   border-left: 15px solid var(--screen-primary-400);
 
-  width: 65%;
-  background-color: var(--screen-offwhite);
-
+  width: 55%;
   background-color: var(--screen-offwhite);
 }
 
 #game-screen {
+  margin: 0px;
   background-color: var(--screen-offwhite);
 }
 
@@ -100,28 +101,33 @@ body {
   position: relative;
 
   width: 100%;
-  height: 75px;
+  height: 25%;
 }
 
 .score-label-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
   position: absolute;
   top: 7px;
-  right: 5px;
+  right: 4px;
   text-align: center;
   border-radius: 5px;
   background-color: var(--screen-offwhite);
   width: 90%;
-  padding: 5px 0px;
+  padding: 1px 0px;
 }
 
 .score-display-label {
   font-weight: bold;
-  margin: 3px;
+  font-size: 12px;
+
   border: var(--small-spacing) solid rgb(146, 146, 86);
   border-radius: 5px;
   width: 90%;
-  padding: 0px 6px;
   line-height: .8rem;
+  letter-spacing: .2rem;
 }
 
 .current-score-theme-top {
@@ -148,6 +154,7 @@ body {
 }
 
 .score-display-text {
+  font-size: 12px;
   font-weight: bold;
   margin-right: 10px;
 }
@@ -156,17 +163,16 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 225px;
   width: 100%;
   background-color: var(--screen-primary-800);
-  padding-top: 12px;
+  padding-top: 10px;
 }
 
 .stat-display-wrapper {
   border-radius: 5px;
   background-color: var(--screen-offwhite);
   width: 90%;
-  margin-top: 5px;
+  margin-bottom: 3px;
 }
 
 .stat-display {
@@ -174,35 +180,40 @@ body {
   flex-direction: column;
   align-items: center;
   padding: 0px 6px;
-  margin: 3px;
+  margin: 1px;
   border: var(--small-spacing) solid rgb(146, 146, 86);
   border-radius: 5px;
 }
 
 .stat-display-label {
-  letter-spacing: 3px;
+  font-size: 12px;
+
+  letter-spacing: .2rem;
   font-weight: bold;
   line-height: .8rem;
   width: fit-content;
-  margin-top: 3px;
+  margin-top: 2px;
 }
 
 .stat-display-text {
+  font-size: 12px;
   font-weight: bold;
-  line-height: 1rem;
-  margin: 2px;
+  margin-top: 2px;
   align-self: flex-end;
-  padding-right: 2px;
+  padding-right: 8px;
 }
 
 .next-piece-wrapper {
   display: flex;
   justify-content: center;
   align-items: center;
+
   border-radius: 5px;
-  margin-top: 30px;
-  width: 70px;
-  height: 70px;
+  margin: 12px 0px;
+
+  width: 60px;
+  height: 60px;
+
   background-color: var(--screen-offwhite);
   padding: 2px;
 }
@@ -211,7 +222,7 @@ body {
   width: 100%;
   height: 90%;
   border-radius: 5px;
-  border: 3px solid rgb(146, 146, 86);
+  border: 2px solid rgb(146, 146, 86);
 }
 
 /*---------------------------------------- Game Over Screen. */
@@ -270,19 +281,6 @@ body {
 
 .prompt-three {
   margin-left: 30px;
-}
-
-/* Blinking text animation. */
-@keyframes textBlink {
-  0% {
-    opacity: .5;
-  }
-  50% {
-    opacity: 0.7;
-  }
-  100% {
-    opacity: .5;
-  }
 }
 
 /* Gameboy Controls Styling */
@@ -468,4 +466,87 @@ body {
   background-color: var(--gameboy-controls-color);
   border: 1px solid var(--gameboy-controls-border);
   outline: var(--gameboy-body-ascent) 3px solid;
+}
+
+/* RESPONSIVE STYLING */
+
+/* Gameboy / screen */
+@media screen and (max-width: 450px) {
+  body {
+    align-items: flex-end;
+  }
+  .gameboy-wrapper {
+    height: 575px;
+    width: 350px;
+    padding: 20px;
+    margin-bottom: 25px;
+    border-radius: 20px;
+    border-bottom-right-radius: 75px;
+  }
+
+  .gameboy-screen-wrapper {  
+    border-bottom-right-radius: 40px;
+  }
+
+  .game-screen {
+    width: 186px;
+    height: 186px;
+  }
+
+  .game-display {
+    border-right: 12px solid var(--screen-primary-400);
+    border-left: 12px solid var(--screen-primary-400);  
+  }
+}
+
+/* Game score display */
+@media screen and (max-width: 450px) {
+  .score-display-wrapper {
+    border-width: 1px 3px 1px 1px;
+  }
+  .score-label-wrapper {
+    height: 16.5px;
+    top: 5px;
+    right: 3px;
+  }
+
+  .current-score-theme-bottom {
+    font-size: 12px;
+    border-top: 2px solid rgb(146, 146, 86);
+    border-bottom: 2px solid rgb(146, 146, 86);
+  }
+
+  .score-display-label,
+  .score-display-text,
+  .stat-display-label,
+  .stat-display-text {
+    font-size: 10px;
+    letter-spacing: .1rem;
+  }
+
+  .lower-display-wrapper {
+    padding-top: 8px;
+  }
+
+  .stat-display-label {
+    margin-top: 0px;
+  }
+
+  .stat-display-text  {
+    margin-top: 0px;
+    padding-right: 2px;
+  }
+
+  .next-piece-wrapper  {
+    padding: 2px;
+
+    box-sizing: border-box;
+    width: 50px;
+    height: 50px;
+    margin: 6px 0px;
+  }
+
+  .next-piece-inner-wrapper {
+    padding: 1px;
+  }
 }
