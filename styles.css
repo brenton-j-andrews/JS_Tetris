@@ -171,15 +171,12 @@ body {
 
 .score-table {
   display: flex;
-  /* justify-content: space-between; */
   width: 175px;
 }
 
 .score-table-left {
   margin-left: 5px;
 }
-
-
 
 /*---------------------------------------- Score display styling. */
 .score-display-wrapper {
@@ -358,8 +355,9 @@ body {
 
 .try-again-prompt-wrapper {
   position: relative;
-  top: 50px;
+  top: 25px;
   display: flex;
+  flex-direction: column;
   width: 100%;
 
   margin-bottom: 0px;
@@ -370,14 +368,15 @@ body {
   text-decoration: underline dotted;
   line-height: 1.5rem;
   letter-spacing: 1px;
+  font-size: 12px;
 }
 
 .prompt-two {
-  margin-left: 15px;
+  margin-left: 10px;
 }
 
 .prompt-three {
-  margin-left: 30px;
+  margin-left: 20px;
 }
 
 /* Gameboy Controls Styling */
@@ -645,5 +644,43 @@ body {
 
   .next-piece-inner-wrapper {
     padding: 1px;
+  }
+}
+
+/* Game over display */
+@media screen and (max-width: 450px) {
+
+  .game-over {
+    margin-top: 20px;
+    border-width: 2px;
+  }
+  
+  .game-over-inner {
+    padding: 5px;
+    font-size: 10px;
+    letter-spacing: .1rem;
+  }
+
+  .game-over-message {
+    line-height: 1.25rem;
+  }
+
+  .try-again-prompt-wrapper {
+    top: 40px;
+  }
+  
+  .try-again-prompt {
+
+    line-height: 1.25rem;
+    letter-spacing: .1rem;
+    font-size: 10px;
+  }
+  
+  .prompt-two {
+    margin-left: 5px;
+  }
+  
+  .prompt-three {
+    margin-left: 10px;
   }
 }
