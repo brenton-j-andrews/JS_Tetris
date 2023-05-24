@@ -11,12 +11,11 @@ import {
 
 // Game variables.
 let frameCount;
-let activeTetromino;
 let gameActive;
 let gameArray;
 
-// TODO: implement dynamic next tetromino var, static for display purposes.
-let nextTetromino = fetchTetromino();
+let activeTetromino;
+let nextTetromino;
 
 let currentScore;
 let currentLevel;
@@ -36,7 +35,6 @@ let lineDisplay;
 let levelDisplay;
 let gameDisplay;
 let controlButtons;
-
 
 // All required steps to start a game instance from main.js.
 export function startGame () {
@@ -63,11 +61,14 @@ export function startGame () {
     }
   }
 
+  // Fetch initial active / next tetrominos.
+  fetchTetromino();
+
   // Add values to initialized variables.
   currentScore = lineCount = rowClearCount = frameCount = 0;
   currentLevel = 1;
 
-  // Select needed HTML elements.
+  // Select HTML elements.
   scoreDisplay = document.getElementById("score-display");
   scoreDisplay.innerHTML = currentScore;
 
@@ -86,26 +87,33 @@ export function startGame () {
   gameActive = requestAnimationFrame(gameLoop);
 }
 
-// TODO: Generate next tetromino with slight bias against choosing activeTetromino (Classic Tetris randomizer), draw to canvas. 
+// TODO: Generate next tetromino with slight bias against choosing activeTetromino consecutively (Classic Tetris randomizer).
 // Lazy randomizer at the moment.
 function generateTetromino() {
   const names = ['I','J', 'L','O','S','T','Z'];
-  return names[Math.floor(Math.random() * names.length)];
+  const selected = names[Math.floor(Math.random() * names.length)];
+
+  return {
+    name : selected,
+    matrix : TETROMINOS[selected],
+    col : selected === "I" ? 3 : 4,
+    row : selected === "I" ? -1 : -2
+  }
 }
 
 // Fetch a tetromino.
 function fetchTetromino() {
 
-  const name = generateTetromino();
-  const matrix = TETROMINOS[name];
-  let col = matrix.name === 'I' ? 3 : 4;
-  let row = matrix.name === 'I' ? -1 : -2;
+  if (!activeTetromino) {
+    console.log(`initial gen.`);
+    activeTetromino = generateTetromino();
+    nextTetromino = generateTetromino();
+  } 
 
-  return {
-    name: name,
-    matrix: matrix,
-    col: col,
-    row: row
+  else {
+    console.log(`in else statement...`);
+    activeTetromino = nextTetromino;
+    nextTetromino = generateTetromino();
   }
 }
 
@@ -204,6 +212,7 @@ function gameOver() {
 
 // Game driver loop.
 function gameLoop() {
+
   gameActive = requestAnimationFrame(gameLoop);
   frameCount++;
 
@@ -220,22 +229,21 @@ function gameLoop() {
     }
   }
 
-  let next = TETROMINO_DISPLAY.L;
+  // // If no active tetromino, fetch new one.
+  // if (!activeTetromino) {
+  //   fetchTetromino();
+  // }
 
-  next.forEach((element) => {
+  // Draw the next piece preview.
+  dtx.clearRect(0, 0, 50, 50);
+  TETROMINO_DISPLAY[nextTetromino.name].forEach((element) => {
     dtx.fillRect(element[0], element[1], element[2], element[3]);
-    dtx.fillStyle = TETROMINO_COLOR.L;
+    dtx.fillStyle = TETROMINO_COLOR[nextTetromino.name];
   })
-
-
-
-  // If no tetromino, fetch new one.
-  if (!activeTetromino) {
-    activeTetromino = fetchTetromino();
-  }
 
   // Update canvas with tetromino position.
   if (activeTetromino) {
+
     if (frameCount > LEVEL_SPEED[currentLevel]) {
       frameCount = 0;
       activeTetromino.row++;
@@ -260,7 +268,8 @@ function gameLoop() {
         }
 
         rowClearCount = 0;
-        activeTetromino = fetchTetromino();
+
+        fetchTetromino();
       }
     }
 
