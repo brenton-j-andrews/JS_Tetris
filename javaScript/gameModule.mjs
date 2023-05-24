@@ -211,7 +211,7 @@ function placeTetromino(activeTetromino) {
       if (activeTetromino.matrix[i][j]) {
         gameArray[activeTetromino.row + i][activeTetromino.col + j] = activeTetromino.name;  
 
-        // TODO: Check for game ending condition.
+        // Check for game ending condition.
         if (activeTetromino.row <= 0) {
           gameOver();
         }
@@ -229,12 +229,9 @@ function placeTetromino(activeTetromino) {
             }
           }
         }
-    }
+      }
+    } 
   }
-
-
-  }
-
 }
 
 // On loosing the game, exit the game canvas and display game screen.
@@ -333,13 +330,11 @@ function createEventListeners () {
   }, false);
 }
 
-function createKeyDownEventListeners () {
-  document.addEventListener("keydown", handleEvent, false);
-}
-
 // Event listener callback function.
 function handleEvent(e) {
   let code = e.target.id || e.key;
+
+  console.log(code);
 
   // Rotate tetromino 90 deg clockwise.
   if (code === "ArrowUp" || code === "A") {

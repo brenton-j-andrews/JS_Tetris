@@ -115,7 +115,6 @@ export const GAME_OVER_HTML =
   `
 
 // Game Constants.
-
 export const TETROMINO_MATRIX = {
   'I':[
     [0,0,0,0],
@@ -190,12 +189,33 @@ export const SCORE_TABLE = {
 }
 
 // Source: https://tetris.fandom.com/wiki/Tetris_(NES,_Nintendo)
+// Better way to represent range of keys?
 export const LEVEL_SPEED = {
   1:48,
   2:43,
   3:38, 
   4:33,
-  5:20
+  5:28,
+  6:23,
+  7:18,
+  8:13,
+  9:8,
+  10:6,
+  11:5,
+  12:5,
+  13:5,
+  14:4,
+  15:4,
+  16:4,
+  17:3,
+  18:3,
+  19:3,
+  20:2,
+  21:2,
+  22:2,
+  23:2,
+  24:2,
+  25:2
 }
 
 export const CELL_SIZE = "15"; 
