@@ -1,7 +1,7 @@
 import { 
   GAME_SCREEN_HTML, 
   GAME_OVER_HTML,
-  TETROMINOS,
+  TETROMINO_MATRIX,
   TETROMINO_COLOR,
   TETROMINO_DISPLAY,
   SCORE_TABLE,
@@ -87,33 +87,61 @@ export function startGame () {
   gameActive = requestAnimationFrame(gameLoop);
 }
 
-// TODO: Generate next tetromino with slight bias against choosing activeTetromino consecutively (Classic Tetris randomizer).
-// Lazy randomizer at the moment.
-function generateTetromino() {
+// TODO: Generate next tetromino with slight bias against choosing activeTetromino consecutively (NES Tetris randomizer).
+function generateTetromino(savedTetromino) {
+
+  function rollDie(max) {
+    return Math.floor(Math.random() * max);
+  }
+
+  let selected = null;
   const names = ['I','J', 'L','O','S','T','Z'];
-  const selected = names[Math.floor(Math.random() * names.length)];
+
+  if (!savedTetromino) {
+    selected = names[rollDie(7)];
+
+    return {
+      name : selected,
+      matrix : TETROMINO_MATRIX[selected],
+      col : selected === "I" ? 3 : 4,
+      row : selected === "I" ? -1 : -2
+    }
+  }
+
+  else {
+    let roll = rollDie(7);
+
+    // If 8 or index of previous tetromino is rolled, re-roll!
+    if (roll === 7 || roll === names.indexOf(savedTetromino.name)) { 
+      roll = rollDie(6);
+    }
+
+    selected = names[roll];
+  }
 
   return {
     name : selected,
-    matrix : TETROMINOS[selected],
+    matrix : TETROMINO_MATRIX[selected],
     col : selected === "I" ? 3 : 4,
     row : selected === "I" ? -1 : -2
   }
+
+
 }
 
 // Fetch a tetromino.
 function fetchTetromino() {
 
+  // On game start.
   if (!activeTetromino) {
-    console.log(`initial gen.`);
     activeTetromino = generateTetromino();
     nextTetromino = generateTetromino();
   } 
 
   else {
-    console.log(`in else statement...`);
+    let savedTetromino = activeTetromino;
     activeTetromino = nextTetromino;
-    nextTetromino = generateTetromino();
+    nextTetromino = generateTetromino(savedTetromino);
   }
 }
 

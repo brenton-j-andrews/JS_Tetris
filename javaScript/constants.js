@@ -116,16 +116,7 @@ export const GAME_OVER_HTML =
 
 // Game Constants.
 
-// Source: https://tetris.fandom.com/wiki/Tetris_(NES,_Nintendo)
-export const LEVEL_SPEED = {
-  1:48,
-  2:43,
-  3:38, 
-  4:33,
-  5:20
-}
-
-export const TETROMINOS = {
+export const TETROMINO_MATRIX = {
   'I':[
     [0,0,0,0],
     [1,1,1,1],
@@ -186,7 +177,7 @@ export const TETROMINO_DISPLAY = {
   'S': [[20, 10, 20, 10], [10, 20, 20, 10]],
   'Z': [[10, 10, 20, 10], [20, 20, 20, 10]],
 
-  'J': [[15, 10, 10, 10], [15, 20, 10, 10], [15, 30, 20, 10]],
+  'J': [[25, 10, 10, 10], [25, 20, 10, 10], [15, 30, 20, 10]],
   'L': [[15, 10, 10, 10], [15, 20, 10, 10], [15, 30, 20, 10]]
 }
 
@@ -196,6 +187,15 @@ export const SCORE_TABLE = {
   2: 300,
   3: 500,
   4: 800
+}
+
+// Source: https://tetris.fandom.com/wiki/Tetris_(NES,_Nintendo)
+export const LEVEL_SPEED = {
+  1:48,
+  2:43,
+  3:38, 
+  4:33,
+  5:20
 }
 
 export const CELL_SIZE = "15"; 
