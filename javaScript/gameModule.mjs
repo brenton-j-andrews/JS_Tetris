@@ -86,7 +86,7 @@ export function startGame () {
   gameDisplay = document.getElementById('game-display');
   controlButtons = document.querySelectorAll("button.control-input");
 
-  createKeyDownEventListeners();
+  createEventListeners();
 
   // Start game via requestAnimationFrame!
   gameActive = requestAnimationFrame(gameLoop);
@@ -203,8 +203,6 @@ function checkValidMove(matrix, incrementedColumn, incrementedRow) {
 // Update gameArray on tetromino placement.
 function placeTetromino(activeTetromino) {
 
-  console.log("function called! ");
-  
   // Place tetromino.
   for (let i = 0; i < activeTetromino.matrix.length; i++) {
     for (let j = 0; j < activeTetromino.matrix[i].length; j++) {
@@ -217,35 +215,33 @@ function placeTetromino(activeTetromino) {
         if (activeTetromino.row <= 0) {
           gameOver();
         }
-      }
-    }
-  }
 
-  // Clear rows that are full after placement.
-  for (let row = gameArray.length - 1; row >= 0; row--) {
-    console.log(gameArray[row]);
-  }
+          // Clear rows that are full after placement.
+        for (let row = gameArray.length - 1; row >= 0; row--) {
+          if (gameArray[row].every(cell => !!cell)) {
+            rowClearCount ++;
 
-  for (let row = gameArray.length - 1; row >= 0; row--) {
-    if (gameArray[row].every(item => !!item)) {
-      rowClearCount++;
-
-      // Clear row.
-      for (let r = row; r >= 0; r--) {
-        for (let c = 0; c < gameArray[r].length; c++) {
-          gameArray[r][c] = gameArray[r - 1][c];
+            // Update the gameArray with cleared row.
+            for (let r = row; r >= 0; r--) {
+              for (let c = 0; c < gameArray[r].length; c++) {
+                gameArray[r][c] = gameArray[r - 1][c];
+              }
+            }
+          }
         }
-      }
     }
   }
 
-  // createKeyDownEventListeners();
+
+  }
+
 }
 
 // On loosing the game, exit the game canvas and display game screen.
 function gameOver() {
   cancelAnimationFrame(gameActive);
   gameDisplay.innerHTML = GAME_OVER_HTML;
+  dtx.clearRect(0, 0, 50, 50);
 
   document.addEventListener("keydown", (e) => {
     if (e.code === "Enter") {;
