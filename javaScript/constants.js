@@ -1,4 +1,4 @@
-// Constants.js contains constant variables used in the game.
+// Constants.js contains constants used in the program.
 
 // Screen HTML.
 export const START_SCREEN_HTML = 
@@ -113,6 +113,8 @@ export const GAME_OVER_HTML =
       </div>
     </div>
   `
+
+// Game Constants.
 
 // Source: https://tetris.fandom.com/wiki/Tetris_(NES,_Nintendo)
 export const LEVEL_SPEED = {

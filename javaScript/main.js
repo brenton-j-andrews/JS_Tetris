@@ -8,5 +8,8 @@ screenContents.innerHTML = START_SCREEN_HTML;
 
 const startButton = document.getElementById("start-button");
 startButton.addEventListener("click", () => {
- console.log(startGame());
+  startGame();
 })
+
+
+

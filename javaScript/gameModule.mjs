@@ -74,8 +74,7 @@ export function startGame () {
   createEventListeners();
 
   // Start game via requestAnimationFrame!
-  // gameActive = requestAnimationFrame(gameLoop);
-  gameOver();
+  gameActive = requestAnimationFrame(gameLoop);
 }
 
 // TODO: Generate a tetromino sequence via 8-bag algorithm (Classic Tetris randomizer).
@@ -113,7 +112,13 @@ function rotateMatrix90Deg(matrix) {
 
 // TODO: Rotate tetromino matrix 90 degress counterClockWise.
 function rotateMatrix90DegCounterClockWise(matrix) {
-  console.log(`TODO!!!`);
+  const N = matrix.length - 1;
+
+  const result = matrix.map((row, i) =>
+    row.map((val, j) => matrix[j][N - i])
+  );
+
+  return result;
 }
 
 // Check move validity (in bounds and piece collisions). 
@@ -267,7 +272,108 @@ function createEventListeners () {
   }, false);
 }
 
+// TODO: Add multi key press functionality... 
+// Store key presses for simultaneous keydown events.
+let keysPressed = {};
+
 // Event listener callback function.
 function handleEvent(e) {
-  console.log(`this will be an event some day.`);
+  let code = e.target.id || e.key;
+
+  // Rotate tetromino 90 deg clockwise.
+  if (code === "ArrowUp" || code === "A") {
+    let matrix = rotateMatrix90Deg(activeTetromino.matrix);
+    const valid = checkValidMove(matrix, activeTetromino.col, activeTetromino.row);
+
+    if (valid) {
+      activeTetromino.matrix = matrix;
+    } 
+
+    // Edge cases: rotating other tetrominos while some of the matrix is out of bounds.
+    else if (activeTetromino.col === 8) {
+      activeTetromino.name === "I" ? activeTetromino.col -= 2 : activeTetromino.col--;
+      activeTetromino.matrix = matrix;
+    }
+    else if (activeTetromino.col === -1) {
+      activeTetromino.col++;
+      activeTetromino.matrix = matrix;
+    }
+
+    // 'I' shape specific edge cases.
+    else if (activeTetromino.col === 7) {
+      activeTetromino.col--;
+      activeTetromino.matrix = matrix;
+    }
+    else if (activeTetromino.col === -2) {
+      activeTetromino.col += 2;
+      activeTetromino.matrix = matrix;
+    }
+  }
+
+  // Rotate tetromino 90 deg counterclockwise.
+  if (code === "z" || code === "B") {
+    let matrix = rotateMatrix90DegCounterClockWise(activeTetromino.matrix);
+    const valid = checkValidMove(matrix, activeTetromino.col, activeTetromino.row);
+
+    if (valid) {
+      activeTetromino.matrix = matrix;
+    } 
+
+    // Edge cases: rotating other tetrominos while some of the matrix is out of bounds.
+    else if (activeTetromino.col === 8) {
+      activeTetromino.name === "I" ? activeTetromino.col -= 2 : activeTetromino.col--;
+      activeTetromino.matrix = matrix;
+    }
+    else if (activeTetromino.col === -1) {
+      activeTetromino.col++;
+      activeTetromino.matrix = matrix;
+    }
+
+    // 'I' shape specific edge cases.
+    else if (activeTetromino.col === 7) {
+      activeTetromino.col--;
+      activeTetromino.matrix = matrix;
+    }
+    else if (activeTetromino.col === -2) {
+      activeTetromino.col += 2;
+      activeTetromino.matrix = matrix;
+    }
+  }
+ 
+  // Shift tetromino right one cell.
+  if (code === "ArrowRight") {
+    let incrementedColumn = activeTetromino.col + 1;
+    
+    const valid = checkValidMove(activeTetromino.matrix, incrementedColumn, activeTetromino.row);
+    if (valid) {
+      activeTetromino.col++;
+    }
+  }
+
+  // Shift tetromino left one cell.
+  if (code == "ArrowLeft" ) {
+    let incrementedColumn = activeTetromino.col - 1;
+    const valid = checkValidMove(activeTetromino.matrix, incrementedColumn, activeTetromino.row);
+
+    if (valid) {
+      activeTetromino.col--;
+    }
+  }
+
+  // Drop tetromino one cell.
+  if (code === "ArrowDown") {
+    let incrementedRow = activeTetromino.row + 1;
+    const valid = checkValidMove(activeTetromino.matrix, activeTetromino.col, incrementedRow);
+    if (!valid) {
+      activeTetromino.row = incrementedRow - 1;
+      placeTetromino(activeTetromino);
+      return
+    } 
+
+    else {
+      currentScore++;
+      scoreDisplay.innerHTML = currentScore;
+      activeTetromino.row ++;
+    }
+  }
 }
