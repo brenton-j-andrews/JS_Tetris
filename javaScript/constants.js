@@ -114,6 +114,13 @@ export const GAME_OVER_HTML =
     </div>
   `
 
+export const CONTROLS_MODAL = 
+  `
+  <div class="controls-modal">
+    This is a test!
+  </div>
+  `
+
 // Game Constants.
 export const TETROMINO_MATRIX = {
   'I':[

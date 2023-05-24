@@ -12,6 +12,27 @@ startButton.addEventListener("click", () => {
   startGame(level);
 })
 
+// ----------- Program Controls Modal.
+const informationModal = document.getElementById("info-modal");
+
+const modalButton = document.getElementById("modal-btn");
+modalButton.addEventListener("click", toggleModal, false);
+let modalIsShown = true;
+modalButton.innerHTML = "Hide Controls";
+informationModal.classList.add("visible");
+
+function toggleModal() {
+  if (!modalIsShown) {
+    modalButton.innerHTML = "Hide Controls";
+    informationModal.classList.add("visible");
+  } else {
+    modalButton.innerHTML = "Show Controls";
+    informationModal.classList.remove("visible");
+  }
+
+  modalIsShown = !modalIsShown;
+}
+
 // ----------- Level Selection Events.
 
 let level = 1;
@@ -49,3 +70,5 @@ function changeLevel(e) {
     selectedLevel.classList.add("active");
   }
 }
+
+// ------------- High Scores.

@@ -14,11 +14,113 @@
 }
 
 body {
-  display: flex;
   height: 100vh;
+  background-color: red;
+}
+
+.program-wrapper {
+  width: 100%;
+  height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/*------------------------------------------------- Header and controls modal styling */
+.header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0px 25px;
+  width: 400px;
+  background-color: #f0b12d;
+
+  margin-bottom: 10px;
+  border-radius: 25px;
+}
+
+.header-modal-btn {
+  margin-right: 0px;
+  width: 75px;
+  height: 75px;
+  border-radius: 50%;
+  color: white;
+  border: none;
+  background-color: var(--screen-primary-800);
+}
+
+.info-modal {
+  position: absolute;
+
+  width: 450px;
+  height: 740px;
+
+  display: flex;
   justify-content: center;
   align-items: center;
-  background-color: red;
+
+  background-color: var(--screen-offwhite);
+
+  bottom: -750px;
+  left: 0px;
+  z-index: 1;
+  visibility: hidden;
+}
+
+.info-modal.visible {
+  visibility: visible;
+}
+
+.info-modal,
+.info-modal-inner {
+  border-radius: 25px;
+  border-bottom-right-radius: 100px;
+}
+
+.info-modal-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 90%;
+  height: 90%;
+  display: flex;
+  flex-direction: column;
+}
+
+.desktop-controls,
+.button-controls {
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+}
+
+.controls-header {
+  margin: 0px 0px 1px 0px;
+  padding: 0px;
+}
+
+.controls-note {
+  font-size: 12px;
+  font-weight: bold;
+  padding: 0px;
+}
+
+.instruction-unit {
+  margin-bottom: 5px;
+}
+
+.instruction-unit span {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.instruction-unit p {
+  font-size: 12px;
+  margin: 0px;
 }
 
 /*----------------------------------- Game Boy, level select and game display styling */
@@ -513,6 +615,7 @@ body {
 
 .button-controls {
   display: flex;
+  flex-direction: row;
   justify-content: space-around;
   align-items: center;
   width: 125px;
@@ -564,6 +667,48 @@ body {
 }
 
 /* RESPONSIVE STYLING */
+
+/* Controls Modal */
+@media screen and (max-width: 450px) {
+  .header {
+    width: 350px;
+    box-sizing: border-box;
+  }
+
+  .info-modal {
+    height: 575px;
+    width: 350px;
+    padding: 5px;
+    margin-bottom: 25px;
+    border-radius: 20px;
+    border-bottom-right-radius: 75px;
+    box-sizing: border-box;
+
+    bottom: -610px;
+    left: 0px;
+  }
+
+  .controls-header {
+    font-size: 16px;
+  }
+  
+  .controls-note {
+    font-size: 10px;
+  }
+
+  .instruction-unit {
+    margin-bottom: 1px;
+  }
+
+  .instruction-unit span {
+    font-size: 10px;
+  }
+  
+  .instruction-unit p {
+    font-size: 10px;
+  }
+  
+}
 
 /* Gameboy / screen */
 @media screen and (max-width: 450px) {
@@ -684,7 +829,7 @@ body {
   }
 }
 
-/* Animations */
+/* ANIMATIONS */
 @keyframes flashingText {
   0% {
     opacity: .65;

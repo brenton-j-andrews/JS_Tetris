@@ -10,62 +10,136 @@
 </head>
 
 <body>
-  <div class="gameboy-wrapper">
-    <div class="gameboy-screen-wrapper">
-      <div class="game-screen">
-        <div class="screen-contents" id="screen-contents">
+
+  <div class="program-wrapper">
+    <header class="header">
+      <h1> Tetris </h1>
+  
+      <button id="modal-btn" class="header-modal-btn"> Controls </button>
+  
+      <div id="info-modal" class="info-modal">
+        <div class="info-modal-inner">
+          <section class="desktop-controls">
+            <h2 class="controls-header"> Desktop Controls: </h2>
+  
+            <div class="instruction-unit">
+              <span class="instruction-title"> Left and Right Arrows: </span>
+              <p> Navigate level selection page. Shift pieces left and right in game. </p>
+            </div>
+  
+            <div class="instruction-unit">
+              <span class="instruction-title"> Down Arrow: </span>
+              <p> Navigate level selection page. "Soft drop" a piece in game. Hard drop not available. </p>
+            </div>
+  
+            <div class="instruction-unit">
+              <span class="instruction-title"> Up Arrow and Z: </span>
+              <p> Rotate pieces clockwise and counterclockwise respectively. </p>
+            </div>
+  
+            <div class="instruction-unit">
+              <span class="instruction-title"> Enter: </span>
+              <p> Start game from both selection and game over pages. </p>
+            </div>
+  
+            <div class="instruction-unit">
+              <span class="instruction-title"> Backspace: </span>
+              <p> Return to selection page from game and game over pages. </p>
+            </div>
+          </section>
+  
+          <section class="desktop-controls">
+            <h2 class="controls-header"> Mobile Controls: </h2>
+  
+            <p class="controls-note"> Note: Due to lack of tactile buttons, the on screen buttons are hard to use. </p>
+            <div class="instruction-unit">
+              <span class="instruction-title"> Left and Right Arrows: </span>
+              <p> Same as desktop </p>
+            </div>
+  
+            <div class="instruction-unit">
+              <span class="instruction-title"> Down Arrow: </span>
+              <p> Same as desktop </p>
+            </div>
+  
+            <div class="instruction-unit">
+              <span class="instruction-title"> B and A buttons </span>
+              <p> Rotate pieces clockwise and counterclockwise respectively. </p>
+            </div>
+  
+            <div class="instruction-unit">
+              <span class="instruction-title"> Start: </span>
+              <p> Start game from both selection and game over pages. </p>
+            </div>
+  
+            <div class="instruction-unit">
+              <span class="instruction-title"> Select: </span>
+              <p> Return to selection page from game and game over pages. </p>
+            </div>
+          </section>
+        </div>
+      </div>
+    </header>
+  
+    <div class="gameboy-wrapper">
+      <div class="gameboy-screen-wrapper">
+        <div class="game-screen">
+          <div class="screen-contents" id="screen-contents">
+          </div>
+        </div>
+      </div>
+  
+      <div class="gameboy-controls">
+        <div class="branding"> 
+          <span class="branding-company"> Nintendo </span>
+          <span class="branding-system"> GAMEBOY </span>
+          <span class="branding-trademark">TM</span>
+        </div>
+  
+        <div class="upper-controls">
+          <div class="arrow-controls-circle">
+            <div class="arrow-controls-center">
+              <div class="center-circle"></div>
+            </div>
+  
+            <button id="ArrowLeft" class="control-input arrow-control arrow-left"></button>
+            
+            <button id="ArrowRight" class="control-input arrow-control arrow-right"></button>
+            
+            <button class="control-input arrow-control arrow-top"></button> 
+            
+            <button id="ArrowDown" class="control-input arrow-control arrow-bottom"></button>
+  
+          </div>
+  
+          <div class="button-controls-wrapper">
+            <div class="button-controls">
+              <button id="B" class="control-input control-btn"></button>
+              <button id="A" class="control-input control-btn"></button>
+            </div>
+  
+            <div class="button-labels">
+              <span class="button-label"> B </span>
+              <span class="button-label"> A </span>
+            </div>
+          </div>
+        </div>
+  
+        <div class="lower-controls">
+          <div class="select-btn-wrapper">
+            <button class="select-btn"></button>
+            <span class="button-labels"> SELECT </span>
+          </div>
+          <div class="select-btn-wrapper">
+            <button class="select-btn" id="start-button"></button>
+            <span class="button-labels"> START </span>
+          </div>
         </div>
       </div>
     </div>
-
-    <div class="gameboy-controls">
-      <div class="branding"> 
-        <span class="branding-company"> Nintendo </span>
-        <span class="branding-system"> GAMEBOY </span>
-        <span class="branding-trademark">TM</span>
-      </div>
-
-      <div class="upper-controls">
-        <div class="arrow-controls-circle">
-          <div class="arrow-controls-center">
-            <div class="center-circle"></div>
-          </div>
-
-          <button id="ArrowLeft" class="control-input arrow-control arrow-left"></button>
-          
-          <button id="ArrowRight" class="control-input arrow-control arrow-right"></button>
-          
-          <button class="control-input arrow-control arrow-top"></button> 
-          
-          <button id="ArrowDown" class="control-input arrow-control arrow-bottom"></button>
-
-        </div>
-
-        <div class="button-controls-wrapper">
-          <div class="button-controls">
-            <button id="B" class="control-input control-btn"></button>
-            <button id="A" class="control-input control-btn"></button>
-          </div>
-
-          <div class="button-labels">
-            <span class="button-label"> B </span>
-            <span class="button-label"> A </span>
-          </div>
-        </div>
-      </div>
-
-      <div class="lower-controls">
-        <div class="select-btn-wrapper">
-          <button class="select-btn"></button>
-          <span class="button-labels"> SELECT </span>
-        </div>
-        <div class="select-btn-wrapper">
-          <button class="select-btn" id="start-button"></button>
-          <span class="button-labels"> START </span>
-        </div>
-      </div>
-    </div>
+  
   </div>
+
 </body>
 
 <script src="./javaScript/main.js" type="module"></script>
