@@ -53,11 +53,16 @@ export function startGame () {
   // Populate initial game array.
   gameArray = [];
 
-  for (let row = -5; row < 20; row++) {
+  for (let row = -2; row < 20; row++) {
     gameArray[row] = [];
   
-    for (let element = 0; element < 10; element++) {
-      gameArray[row][element] = 0;
+    for (let column = 0; column < 10; column++) {
+      if (row >= 19 && column < 9) {
+        gameArray[row][column] = "I";
+      }
+      else {
+        gameArray[row][column] = 0;
+      }
     }
   }
 
@@ -81,13 +86,13 @@ export function startGame () {
   gameDisplay = document.getElementById('game-display');
   controlButtons = document.querySelectorAll("button.control-input");
 
-  createEventListeners();
+  createKeyDownEventListeners();
 
   // Start game via requestAnimationFrame!
   gameActive = requestAnimationFrame(gameLoop);
 }
 
-// TODO: Generate next tetromino with slight bias against choosing activeTetromino consecutively (NES Tetris randomizer).
+// Generate next tetromino with slight bias against choosing activeTetromino consecutively (NES Tetris randomizer).
 function generateTetromino(savedTetromino) {
 
   function rollDie(max) {
@@ -156,7 +161,7 @@ function rotateMatrix90Deg(matrix) {
   return result;
 }
 
-// TODO: Rotate tetromino matrix 90 degress counterClockWise.
+// Rotate tetromino matrix 90 degress counterclockwise.
 function rotateMatrix90DegCounterClockWise(matrix) {
   const N = matrix.length - 1;
 
@@ -197,6 +202,10 @@ function checkValidMove(matrix, incrementedColumn, incrementedRow) {
 
 // Update gameArray on tetromino placement.
 function placeTetromino(activeTetromino) {
+
+  console.log("function called! ");
+  
+  // Place tetromino.
   for (let i = 0; i < activeTetromino.matrix.length; i++) {
     for (let j = 0; j < activeTetromino.matrix[i].length; j++) {
 
@@ -208,22 +217,29 @@ function placeTetromino(activeTetromino) {
         if (activeTetromino.row <= 0) {
           gameOver();
         }
+      }
+    }
+  }
 
-        // Check if row is full, remove and drop down rows above if so.
-        for (let row = gameArray.length - 1; row >= 0; row--) {
-          if (gameArray[row].every(item => !!item)) {
-            rowClearCount++;
-            // Clear row.
-            for (let r = row; r >= 0; r--) {
-              for (let c = 0; c < gameArray[r].length; c++) {
-                gameArray[r][c] = gameArray[r - 1][c];
-              }
-            }
-          }
+  // Clear rows that are full after placement.
+  for (let row = gameArray.length - 1; row >= 0; row--) {
+    console.log(gameArray[row]);
+  }
+
+  for (let row = gameArray.length - 1; row >= 0; row--) {
+    if (gameArray[row].every(item => !!item)) {
+      rowClearCount++;
+
+      // Clear row.
+      for (let r = row; r >= 0; r--) {
+        for (let c = 0; c < gameArray[r].length; c++) {
+          gameArray[r][c] = gameArray[r - 1][c];
         }
       }
     }
   }
+
+  // createKeyDownEventListeners();
 }
 
 // On loosing the game, exit the game canvas and display game screen.
@@ -256,11 +272,6 @@ function gameLoop() {
       ctx.fillRect(column * CELL_SIZE, row * CELL_SIZE, CELL_SIZE - 1, CELL_SIZE - 1);
     }
   }
-
-  // // If no active tetromino, fetch new one.
-  // if (!activeTetromino) {
-  //   fetchTetromino();
-  // }
 
   // Draw the next piece preview.
   dtx.clearRect(0, 0, 50, 50);
@@ -316,9 +327,7 @@ function gameLoop() {
 function createEventListeners () {
 
   // TODO: only fire if not mobile or tablet.
-  document.addEventListener("keydown", (e) => {
-    handleEvent(e);
-  }, false);
+  document.addEventListener("keydown", handleEvent, false);
 
   // Add button events.
   controlButtons.forEach(function (i) { 
@@ -328,9 +337,9 @@ function createEventListeners () {
   }, false);
 }
 
-// TODO: Add multi key press functionality... 
-// Store key presses for simultaneous keydown events.
-let keysPressed = {};
+function createKeyDownEventListeners () {
+  document.addEventListener("keydown", handleEvent, false);
+}
 
 // Event listener callback function.
 function handleEvent(e) {
@@ -350,6 +359,7 @@ function handleEvent(e) {
       activeTetromino.name === "I" ? activeTetromino.col -= 2 : activeTetromino.col--;
       activeTetromino.matrix = matrix;
     }
+
     else if (activeTetromino.col === -1) {
       activeTetromino.col++;
       activeTetromino.matrix = matrix;
@@ -360,6 +370,7 @@ function handleEvent(e) {
       activeTetromino.col--;
       activeTetromino.matrix = matrix;
     }
+
     else if (activeTetromino.col === -2) {
       activeTetromino.col += 2;
       activeTetromino.matrix = matrix;
@@ -420,10 +431,10 @@ function handleEvent(e) {
   if (code === "ArrowDown") {
     let incrementedRow = activeTetromino.row + 1;
     const valid = checkValidMove(activeTetromino.matrix, activeTetromino.col, incrementedRow);
+
     if (!valid) {
       activeTetromino.row = incrementedRow - 1;
-      placeTetromino(activeTetromino);
-      return
+      // placeTetromino(activeTetromino);
     } 
 
     else {

@@ -2,6 +2,7 @@
   --screen-offwhite: #ffffe4;
   --screen-primary-400: rgb(109, 109, 109);
   --screen-primary-800: rgb(44, 44, 44);
+  --screen-primary-olive: rgb(146, 146, 86);
 
   --gameboy-body-color: #f0b12d;
   --gameboy-body-ascent: #da9e21;
@@ -113,13 +114,13 @@ body {
 
 .level-selector-upper {
   display: flex;
-  border-bottom: 5px solid rgb(146, 146, 86);
+  border-bottom: 5px solid var(--screen-primary-olive);
 }
 
 
 .level-selector-lower {
   display: flex;
-  border-top: 5px solid rgb(146, 146, 86);
+  border-top: 5px solid var(--screen-primary-olive);
 }
 
 .level-option {
@@ -162,9 +163,6 @@ body {
 .high-scores-left,
 .score-table {
   border: 1px solid var(--screen-primary-400);
-}
-
-.score-label {
   text-align: center;
   width: 27px;
 }
@@ -218,7 +216,7 @@ body {
   font-weight: bold;
   font-size: 12px;
 
-  border: var(--small-spacing) solid rgb(146, 146, 86);
+  border: var(--small-spacing) solid var(--screen-primary-olive);
   border-radius: 5px;
   width: 90%;
   line-height: .8rem;
@@ -235,15 +233,15 @@ body {
 .current-score-theme-middle {
   width: 100%;
   height: 18%;
-  background-color: rgb(146, 146, 86);
+  background-color: var(--screen-primary-olive);
 }
 
 .current-score-theme-bottom {
   width: 100%;
   height: auto;
   background-color: var(--screen-offwhite);
-  border-top: 3px solid rgb(146, 146, 86);
-  border-bottom: 3px solid rgb(146, 146, 86);
+  border-top: 3px solid var(--screen-primary-olive);
+  border-bottom: 3px solid var(--screen-primary-olive);
   margin: 2px 0px;
   text-align: right;
 }
@@ -276,7 +274,7 @@ body {
   align-items: center;
   padding: 0px 6px;
   margin: 1px;
-  border: var(--small-spacing) solid rgb(146, 146, 86);
+  border: var(--small-spacing) solid var(--screen-primary-olive);
   border-radius: 5px;
 }
 
@@ -317,11 +315,10 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  
   width: 100%;
   height: 90%;
   border-radius: 5px;
-  border: 2px solid rgb(146, 146, 86);
+  border: 2px solid var(--screen-primary-olive);
 }
 
 /*---------------------------------------- Game Over Screen. */
@@ -344,7 +341,7 @@ body {
 .game-over-inner {
   display: flex;
   flex-direction: column;
-  border: 2px solid rgb(146, 146, 86);
+  border: 2px solid var(--screen-primary-olive);
 
   padding: 10px;
   border-radius: 5px;
@@ -612,8 +609,8 @@ body {
 
   .current-score-theme-bottom {
     font-size: 12px;
-    border-top: 2px solid rgb(146, 146, 86);
-    border-bottom: 2px solid rgb(146, 146, 86);
+    border-top: 2px solid var(--screen-primary-olive);
+    border-bottom: 2px solid var(--screen-primary-olive);
   }
 
   .score-display-label,
