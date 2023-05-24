@@ -3,6 +3,7 @@ import {
   GAME_OVER_HTML,
   TETROMINOS,
   TETROMINO_COLOR,
+  TETROMINO_DISPLAY,
   SCORE_TABLE,
   LEVEL_SPEED,
   CELL_SIZE
@@ -14,6 +15,9 @@ let activeTetromino;
 let gameActive;
 let gameArray;
 
+// TODO: implement dynamic next tetromino var, static for display purposes.
+let nextTetromino = fetchTetromino();
+
 let currentScore;
 let currentLevel;
 let lineCount;
@@ -22,6 +26,8 @@ let rowClearCount;
 // Canvas elements.
 let canvas;
 let ctx;
+let displayCanvas;
+let dtx;
 
 // DOM elements.
 let screenContents;
@@ -39,9 +45,12 @@ export function startGame () {
   screenContents = document.getElementById("screen-contents");
   screenContents.innerHTML = GAME_SCREEN_HTML;
 
-  // Initialize HTML canvas.
+  // Initialize HTML canvas elements.
   canvas = document.getElementById("game-screen");
   ctx = canvas.getContext('2d');
+
+  displayCanvas = document.getElementById("next-piece-canvas");
+  dtx = displayCanvas.getContext('2d');
 
   // Populate initial game array.
   gameArray = [];
@@ -77,7 +86,8 @@ export function startGame () {
   gameActive = requestAnimationFrame(gameLoop);
 }
 
-// TODO: Generate a tetromino sequence via 8-bag algorithm (Classic Tetris randomizer).
+// TODO: Generate next tetromino with slight bias against choosing activeTetromino (Classic Tetris randomizer), draw to canvas. 
+// Lazy randomizer at the moment.
 function generateTetromino() {
   const names = ['I','J', 'L','O','S','T','Z'];
   return names[Math.floor(Math.random() * names.length)];
@@ -209,6 +219,15 @@ function gameLoop() {
       ctx.fillRect(column * CELL_SIZE, row * CELL_SIZE, CELL_SIZE - 1, CELL_SIZE - 1);
     }
   }
+
+  let next = TETROMINO_DISPLAY.L;
+
+  next.forEach((element) => {
+    dtx.fillRect(element[0], element[1], element[2], element[3]);
+    dtx.fillStyle = TETROMINO_COLOR.L;
+  })
+
+
 
   // If no tetromino, fetch new one.
   if (!activeTetromino) {

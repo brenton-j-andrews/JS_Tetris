@@ -88,7 +88,7 @@ export const GAME_SCREEN_HTML =
 
         <div class="next-piece-wrapper">
           <div class="next-piece-inner-wrapper">
-
+            <canvas id="next-piece-canvas" width="50", height="50"></canvas>
           </div>
         </div>
 
@@ -177,6 +177,17 @@ export const TETROMINO_COLOR = {
   'Z': 'red',
   'J': 'blue',
   'L': 'orange'
+}
+
+export const TETROMINO_DISPLAY = {
+  'I': [[20, 5, 10, 40]],
+  'O': [[15, 15, 20, 20]],
+  'T': [[20, 10, 10, 10], [10, 20, 30, 10]],
+  'S': [[20, 10, 20, 10], [10, 20, 20, 10]],
+  'Z': [[10, 10, 20, 10], [20, 20, 20, 10]],
+
+  'J': [[15, 10, 10, 10], [15, 20, 10, 10], [15, 30, 20, 10]],
+  'L': [[15, 10, 10, 10], [15, 20, 10, 10], [15, 30, 20, 10]]
 }
 
 // Source: https://tetris.wiki/Scoring
