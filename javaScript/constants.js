@@ -8,20 +8,20 @@ export const START_SCREEN_HTML =
 
       <div class="level-selector-box">
         <div class="level-selector-upper">
-          <div class="level-option active"> 0 </div>
-          <div class="level-option"> 1 </div>
-          <div class="level-option"> 2 </div>
-          <div class="level-option"> 3 </div>
-          <div class="level-option"> 4 </div>
+          <div id="levelOption" class="level-option"> 1 </div>
+          <div id="levelOption" class="level-option"> 2 </div>
+          <div id="levelOption" class="level-option"> 3 </div>
+          <div id="levelOption" class="level-option"> 4 </div>
+          <div id="levelOption" class="level-option"> 5 </div>
         </div>
 
 
         <div class="level-selector-lower">
-          <div class="level-option"> 5 </div>
-          <div class="level-option"> 6 </div>
-          <div class="level-option"> 7 </div>
-          <div class="level-option"> 8 </div>
-          <div class="level-option"> 9 </div>
+          <div id="levelOption" class="level-option"> 6 </div>
+          <div id="levelOption" class="level-option"> 7 </div>
+          <div id="levelOption" class="level-option"> 8 </div>
+          <div id="levelOption" class="level-option"> 9 </div>
+          <div id="levelOption" class="level-option"> 10 </div>
         </div>
       </div>
 

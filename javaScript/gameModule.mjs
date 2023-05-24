@@ -37,7 +37,7 @@ let gameDisplay;
 let controlButtons;
 
 // All required steps to start a game instance from main.js.
-export function startGame () {
+export function startGame (level) {
 
   // Add game html to screen.
   screenContents = document.getElementById("screen-contents");
@@ -71,7 +71,7 @@ export function startGame () {
 
   // Add values to initialized variables.
   currentScore = lineCount = rowClearCount = frameCount = 0;
-  currentLevel = 1;
+  currentLevel = level;
 
   // Select HTML elements.
   scoreDisplay = document.getElementById("score-display");
@@ -316,6 +316,8 @@ function gameLoop() {
   }
 }
 
+// TODO: Handle multiple key presses.
+
 // Add key and button event listeners.
 function createEventListeners () {
 
@@ -333,8 +335,6 @@ function createEventListeners () {
 // Event listener callback function.
 function handleEvent(e) {
   let code = e.target.id || e.key;
-
-  console.log(code);
 
   // Rotate tetromino 90 deg clockwise.
   if (code === "ArrowUp" || code === "A") {

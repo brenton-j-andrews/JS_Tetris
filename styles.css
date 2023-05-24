@@ -138,6 +138,7 @@ body {
 .active {
   color: var(--screen-primary-800);
   font-weight: bold;
+  animation: flashingText 5s linear infinite;
 }
 
 .high-scores {
@@ -315,9 +316,6 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100%;
-  height: 90%;
-  border-radius: 5px;
   border: 2px solid var(--screen-primary-olive);
 }
 
@@ -683,5 +681,18 @@ body {
   
   .prompt-three {
     margin-left: 10px;
+  }
+}
+
+/* Animations */
+@keyframes flashingText {
+  0% {
+    opacity: .65;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: .65;
   }
 }

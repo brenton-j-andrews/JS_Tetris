@@ -8,8 +8,44 @@ screenContents.innerHTML = START_SCREEN_HTML;
 
 const startButton = document.getElementById("start-button");
 startButton.addEventListener("click", () => {
-  startGame();
+  document.removeEventListener("keydown", changeLevel, false);
+  startGame(level);
 })
 
+// ----------- Level Selection Events.
 
+let level = 1;
 
+const levelSelect = document.querySelectorAll("#levelOption");
+let selectedLevel = levelSelect[level - 1];
+selectedLevel.classList.add("active");
+
+// Arrow Event Listeners.
+document.addEventListener("keydown", changeLevel, false);
+
+// Level selection 
+function changeLevel(e) {
+  let prevLevel = level;
+
+  if (e.code === "ArrowDown" && level < 6) { 
+    level += 5;
+  }
+
+  if (e.code === "ArrowUp" && level > 5) {
+    level -= 5;
+  }
+
+  if (e.code === "ArrowRight" && level < 10) {
+    level += 1;
+  }
+
+  if (e.code === "ArrowLeft" && level > 1) {
+    level -= 1;
+  }
+
+  if (prevLevel !== level) {
+    selectedLevel.classList.remove("active");
+    selectedLevel = levelSelect[level - 1];
+    selectedLevel.classList.add("active");
+  }
+}
