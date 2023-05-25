@@ -17,9 +17,7 @@ const informationModal = document.getElementById("info-modal");
 
 const modalButton = document.getElementById("modal-btn");
 modalButton.addEventListener("click", toggleModal, false);
-let modalIsShown = true;
-modalButton.innerHTML = "Hide Controls";
-informationModal.classList.add("visible");
+let modalIsShown = false;
 
 function toggleModal() {
   if (!modalIsShown) {
@@ -43,24 +41,26 @@ selectedLevel.classList.add("active");
 
 // Arrow Event Listeners.
 document.addEventListener("keydown", changeLevel, false);
+document.addEventListener("click", changeLevel, false);
 
-// Level selection 
 function changeLevel(e) {
+  let code = e.target.id || e.key;
+  console.log(code);
   let prevLevel = level;
 
-  if (e.code === "ArrowDown" && level < 6) { 
+  if (code === "ArrowDown" && level < 6) { 
     level += 5;
   }
 
-  if (e.code === "ArrowUp" && level > 5) {
+  if (code === "ArrowUp" && level > 5) {
     level -= 5;
   }
 
-  if (e.code === "ArrowRight" && level < 10) {
+  if (code === "ArrowRight" && level < 10) {
     level += 1;
   }
 
-  if (e.code === "ArrowLeft" && level > 1) {
+  if (code === "ArrowLeft" && level > 1) {
     level -= 1;
   }
 
@@ -71,4 +71,3 @@ function changeLevel(e) {
   }
 }
 
-// ------------- High Scores.

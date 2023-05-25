@@ -54,7 +54,7 @@ export const START_SCREEN_HTML =
 export const GAME_SCREEN_HTML =  
   `
     <div class="game-display" id="game-display">
-        <canvas id="game-screen" width="150", height="300"></canvas>
+      <canvas id="game-screen" width="150", height="300"></canvas>
     </div>
 
     <div class="score-display-wrapper">

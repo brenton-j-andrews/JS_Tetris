@@ -260,7 +260,6 @@ function gameLoop() {
         ctx.fillStyle = TETROMINO_COLOR[gameArray[row][column]];
       } else {
         ctx.fillStyle = "#ffffe4";
-        // ctx.fillStyle = "red";
       }
       ctx.fillRect(column * CELL_SIZE, row * CELL_SIZE, CELL_SIZE - 1, CELL_SIZE - 1);
     }
@@ -273,44 +272,41 @@ function gameLoop() {
     dtx.fillStyle = TETROMINO_COLOR[nextTetromino.name];
   })
 
-  // Update canvas with tetromino position.
-  if (activeTetromino) {
+  // Move / place activeTetromino.
+  if (frameCount > LEVEL_SPEED[currentLevel]) {
+    frameCount = 0;
+    activeTetromino.row++;
 
-    if (frameCount > LEVEL_SPEED[currentLevel]) {
-      frameCount = 0;
-      activeTetromino.row++;
+    // If piece is in final position, update gameArray, score and lineCount. Increment level if needed.
+    if (!checkValidMove(activeTetromino.matrix, activeTetromino.col, activeTetromino.row)) {
+      activeTetromino.row--;
+      placeTetromino(activeTetromino);    
+      lineCount += rowClearCount;
+      lineDisplay.innerText = lineCount;
 
-      // If piece is in final position, update gameArray, score and lineCount. Increment level if needed.
-      if (!checkValidMove(activeTetromino.matrix, activeTetromino.col, activeTetromino.row)) {
-        activeTetromino.row--;
-        placeTetromino(activeTetromino);    
-        lineCount += rowClearCount;
-        lineDisplay.innerText = lineCount;
-
-        // Update the score.
-        if (rowClearCount) {
-          currentScore += (SCORE_TABLE[rowClearCount] * currentLevel);
-          scoreDisplay.innerHTML = currentScore;
-        }
-
-        // Increment level, refactor later for different play modes.
-        if (lineCount >= (currentLevel) * 10) {
-          currentLevel++;
-          levelDisplay.innerHTML = currentLevel;
-        }
-
-        rowClearCount = 0;
-
-        fetchTetromino();
+      // Update the score.
+      if (rowClearCount) {
+        currentScore += (SCORE_TABLE[rowClearCount] * currentLevel);
+        scoreDisplay.innerHTML = currentScore;
       }
-    }
 
-    for (let row = 0; row < activeTetromino.matrix.length; row++) {
-      for (let col = 0; col < activeTetromino.matrix[row].length; col++) {
-        if (activeTetromino.matrix[row][col]) {
-          ctx.fillStyle = TETROMINO_COLOR[activeTetromino.name];
-          ctx.fillRect((activeTetromino.col + col) * CELL_SIZE, (activeTetromino.row + row) * CELL_SIZE, CELL_SIZE - 1, CELL_SIZE - 1);
-        }
+      // Increment level, refactor later for different play modes.
+      if (lineCount >= (currentLevel) * 10) {
+        currentLevel++;
+        levelDisplay.innerHTML = currentLevel;
+      }
+
+      rowClearCount = 0;
+      fetchTetromino();
+    }
+  }
+
+  // Draw activeTetromino to canvas.
+  for (let row = 0; row < activeTetromino.matrix.length; row++) {
+    for (let col = 0; col < activeTetromino.matrix[row].length; col++) {
+      if (activeTetromino.matrix[row][col]) {
+        ctx.fillStyle = TETROMINO_COLOR[activeTetromino.name];
+        ctx.fillRect((activeTetromino.col + col) * CELL_SIZE, (activeTetromino.row + row) * CELL_SIZE, CELL_SIZE - 1, CELL_SIZE - 1);
       }
     }
   }

@@ -203,7 +203,7 @@ body {
   line-height: .8rem;
   letter-spacing: .3rem;
   background-color: var(--screen-offwhite);
-  margin: 5px;
+  margin: 20px 0px 5px 0px;
   padding: 2px 4px;
   border-radius: 5px;
   border: 3px solid var(--screen-primary-400);
@@ -265,6 +265,7 @@ body {
 
 .high-scores-left,
 .score-table {
+  line-height: 1rem;
   border: 1px solid var(--screen-primary-400);
   text-align: center;
   width: 27px;
@@ -710,7 +711,7 @@ body {
   
 }
 
-/* Gameboy / screen */
+/* Gameboy controls and screen */
 @media screen and (max-width: 450px) {
   body {
     align-items: flex-end;
@@ -738,6 +739,52 @@ body {
     border-left: 12px solid var(--screen-primary-400);  
   }
 }
+
+/* Level selection screen */
+@media screen and (max-width: 450px) {
+
+  .level-select-label {
+    font-size: 10px;
+    font-weight: bold;
+    margin: 3px;
+    padding: 1px 2px;
+    border: 2px solid var(--screen-primary-400);
+  }
+  
+  .level-selector-upper {
+    border-bottom: 2px solid var(--screen-primary-olive);
+  }
+
+  .level-option {
+    width: 20px;
+    font-size: 10px;
+  }
+
+  .high-scores-left,
+  .score-table-left,
+  .score-table-right {
+    display: flex;
+    flex-direction: column;
+    padding: 1px;
+  }
+  
+  .high-score,
+  .player-name,
+  .score-label {
+    letter-spacing: .1rem;
+    font-size: 10px;
+  }
+
+  .score-table {
+    justify-content: space-between;
+    width: 105px;
+  }
+  
+  .score-table-left {
+    margin-left: 2px;
+  }
+}
+
 
 /* Game score display */
 @media screen and (max-width: 450px) {
