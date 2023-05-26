@@ -45,7 +45,6 @@ document.addEventListener("click", changeLevel, false);
 
 function changeLevel(e) {
   let code = e.target.id || e.key;
-  console.log(code);
   let prevLevel = level;
 
   if (code === "ArrowDown" && level < 6) { 
@@ -71,3 +70,18 @@ function changeLevel(e) {
   }
 }
 
+// Display highest scores.
+let player_1 = document.getElementById("player_1");
+let score_1 = document.getElementById("score_1");
+player_1.innerHTML = ".........";
+score_1.innerHTML = ".........";
+
+let player_2 = document.getElementById("player_2");
+let score_2 = document.getElementById("score_2");
+player_2.innerHTML = ".........";
+score_2.innerHTML = ".........";
+
+let player_3 = document.getElementById("player_3");
+let score_3 = document.getElementById("score_3");
+player_3.innerHTML = ".........";
+score_3.innerHTML = ".........";

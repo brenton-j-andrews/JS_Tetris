@@ -36,16 +36,17 @@ export const START_SCREEN_HTML =
 
         <div class="score-table">
           <div class="score-table-left">
-            <span class="player-name"> Brent... </span>
-            <span class="player-name"> Bruce... </span>
-            <span class="player-name"> Nigel... </span>
+            <span id="player_1" class="player-name"></span>
+            <span id="player_2" class="player-name"></span>
+            <span id="player_3" class="player-name"></span>
           </div>
 
           <div class="score-table-right">
-            <span class="high-score"> 1043 </span>
-            <span class="high-score"> 999 </span>
-            <span class="high-score"> 666 </span>
+            <span id="score_1" class="score-label"></span>
+            <span id="score_2" class="score-label"></span>
+            <span id="score_3" class="score-label"></span>
           </div>
+            
         </div>
       </div>
     </div>  

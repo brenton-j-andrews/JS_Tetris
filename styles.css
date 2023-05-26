@@ -263,8 +263,7 @@ body {
   font-weight: bold;
 }
 
-.high-scores-left,
-.score-table {
+.high-scores-left {
   line-height: 1rem;
   border: 1px solid var(--screen-primary-400);
   text-align: center;
@@ -272,12 +271,19 @@ body {
 }
 
 .score-table {
+  justify-content: space-between;
+  line-height: 1rem;
+  border: 1px solid var(--screen-primary-400);
   display: flex;
   width: 175px;
 }
 
 .score-table-left {
   margin-left: 5px;
+}
+
+.score-table-right {
+  text-align: right;
 }
 
 /*---------------------------------------- Score display styling. */
